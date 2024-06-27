@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->unsignedBigInteger('mairie_id')->nullable();
             $table->timestamps();
-            $table->foreign('mairie_id')->references('id')->on('mairies')->onDelete('set null');
         });
     }
 

@@ -12,9 +12,6 @@ return new class () extends Migration {
     {
         Schema::create('guichet_naissances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('region_id');
-            $table->unsignedBigInteger('mairie_id');
-            $table->unsignedBigInteger('departement_id')->nullable();
             $table->unsignedBigInteger('agent_id')->nullable();
             $table->string('nom');
             $table->string('prenom');
@@ -26,18 +23,17 @@ return new class () extends Migration {
             $table->string('nom_prenom_mere');
             $table->integer('annee_registre');
             $table->string('numero_acte_naissance');
-            $table->enum('state', ['en_traitement', 'rejeté', 'terminé'])->default('en_traitement');
-            $table->string('code')->nullable();
             $table->json('infos_demande')->nullable();
+            $table->string('code')->nullable();
+            $table->enum('state', ['en_traitement', 'rejeté', 'terminé'])->default('en_traitement');
+            $table->string('fichier_joint')->nullable(); // Nouvelle colonne pour le fichier joint
             $table->timestamps();
             $table->timestamp('date_validation_rejet')->nullable();
             $table->text('motif')->nullable();
-            $table->foreign('region_id')->references('id')->on('regions');
-            $table->foreign('mairie_id')->references('id')->on('mairies');
-            $table->foreign('departement_id')->references('id')->on('departements');
             $table->foreign('agent_id')->references('id')->on('users');
-
         });
+
+
     }
 
     /**

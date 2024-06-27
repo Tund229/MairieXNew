@@ -40,9 +40,6 @@ class GuichetCertificatsController extends Controller
         ];
 
         $data = $request->validate([
-            'region' => 'required',
-            'mairie' => 'required',
-            'departement'=> 'required',
             'nom' => 'required',
             'prenom' => 'required',
             'telephone' => 'required',
@@ -57,10 +54,7 @@ class GuichetCertificatsController extends Controller
         $chemin = $fichier->storeAs('GuichetCertificats'.'-'.$nomFichier);
 
         GuichetCertificat::create([
-            'region_id' => $data['region'],
             'lieu_naissance' => $data['lieu_naissance'],
-            'mairie_id' => $data['mairie'],
-            'departement_id'=>$data['departement'],
             'nom' => $data['nom'],
             'prenom' => $data['prenom'],
             'telephone' => $data['telephone'],

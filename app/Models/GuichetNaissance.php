@@ -10,9 +10,7 @@ class GuichetNaissance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'region_id',
-        'mairie_id',
-        'departement_id',
+
         'nom',
         'prenom',
         'lieu_naissance',
@@ -24,29 +22,15 @@ class GuichetNaissance extends Model
         'annee_registre',
         'numero_acte_naissance',
         'state',
+        'fichier_joint', 
         'code',
         'infos_demande',
         'date_validation_rejet',
         'motif'
     ];
 
-    public function region()
-    {
-        return $this->belongsTo(Region::class, 'region_id');
-    }
-
-    public function mairie()
-    {
-        return $this->belongsTo(Mairie::class, 'mairie_id');
-    }
-
     public function agent(){
         return $this->belongsTo(User::class, 'agent_id');
-    }
-
-    public function departement()
-    {
-        return $this->belongsTo(Departement::class, 'departement_id');
     }
 
 }

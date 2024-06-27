@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="">
-    <meta name="keywords"
-        content=" ">
+    <meta name="keywords" content=" ">
     <!-- Favicon icon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('../assets/favicon.png') }}" />
     <!-- Google font-->
@@ -25,46 +24,61 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
         #dataTable_paginate {
-
             margin: 0 auto;
             text-align: center;
             margin-bottom: 20px;
         }
 
         #dataTable {
-            padding: 20px 0;
+            padding: 10px 0;
+            border: none;
+        }
+
+        #dataTable th,
+        #dataTable td {
+            text-align: center;
+            vertical-align: middle;
         }
 
         #dataTable thead th {
-            background-color: #f5f5f5;
             font-weight: bold;
-            border-top: 1px solid #ddd;
+            padding: 8px;
+            border: none;
+            background-color: #270665;
+            color: white;
+        }
+
+        #dataTable tbody td {
             border-bottom: 1px solid #ddd;
             padding: 8px;
         }
 
-        #dataTable tbody td {
-            border-bottom: 1px solid #17a589;
-            padding: 8px;
+        #dataTable tbody tr:hover {
+            background-color: #ddd;
         }
 
         #dataTable_paginate .paginate_button {
-            background-color: transparent;
-            color: #17a589;
-            border: 1px solid #17a589;
+            background: #ddd;
+            color: #000 !important;
             padding: 3px 8px;
             margin-right: 2px;
-            transition: background-color 0.3s;
             cursor: pointer;
-
+            border: none;
         }
 
         #dataTable_paginate .paginate_button.current {
-            background-color: #17a589;
-            color: #17a589;
-            border: 1px solid #17a589;
+            background: #270665;
+            color: #fff !important;
             padding: 3px 8px;
             margin-right: 2px;
+            cursor: pointer;
+            border: none;
+        }
+
+        #dataTable_paginate .paginate_button:hover,
+        #dataTable_paginate .paginate_button:focus {
+            box-shadow: none;
+            border: none;
         }
 
         #dataTable_filter {
@@ -73,13 +87,10 @@
         }
 
         #dataTable_filter>label>input[type="search"] {
-
-
-            padding: 0.4375rem 0.875rem;
             font-size: 0.9375rem;
             font-weight: 400;
             line-height: 1.53;
-            color: #697a8d;
+            color: #000;
             background-color: #fff;
             background-clip: padding-box;
             border: 1px solid #d9dee3;
@@ -91,12 +102,10 @@
         }
 
         #dataTable_filter>label>input[type="search"]:focus {
-            outline: 1px solid #17a589;
-            padding: 0.4375rem 0.875rem;
+            outline: 1px solid #270665;
             font-size: 0.9375rem;
             font-weight: 400;
             line-height: 1.53;
-            color: #697a8d;
             background-color: #fff;
             background-clip: padding-box;
             border: 1px solid #d9dee3;
@@ -125,7 +134,7 @@
                         <a class="mobile-search morphsearch-search" href="#">
                             <i class="ti-search"></i>
                         </a>
-                        <a href="{{route('home')}}">
+                        <a href="{{ route('home') }}">
                             <img class="img-fluid" src="{{ asset('../assets/logo.png') }}" alt="Theme-Logo"
                                 width="150px" />
                         </a>
@@ -137,29 +146,29 @@
                     <div class="navbar-container container-fluid">
 
                         <ul class="nav-right">
-                            @if (Auth::user()->role == "agent")
-                                
-                            <li class="header-notification">
-                                <a href="#!">
-                                    <i class="ti-bell"></i>
-                                    <span class="badge bg-c-pink">{{  $demandeEnCours}}</span>
-                                </a>
-                                <ul class="show-notification">
-                                    <li>
-                                        <h6>Agent {{Auth::user()->name}}</h6>
-                                        <label class="label label-danger">New</label>
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            
-                                            <div class="media-body">
-                                                <p class="notification-msg">Vous avez {{$demandeEnCours}} nouvelles demandes en attente de traitement</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                            @if (Auth::user()->role == 'agent')
+                                <li class="header-notification">
+                                    <a href="#!">
+                                        <i class="ti-bell"></i>
+                                        <span class="badge bg-c-pink">{{ $demandeEnCours }}</span>
+                                    </a>
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Agent {{ Auth::user()->name }}</h6>
+                                            <label class="label label-danger">New</label>
+                                        </li>
+                                        <li>
+                                            <div class="media">
 
-                                </ul>
-                            </li>
+                                                <div class="media-body">
+                                                    <p class="notification-msg">Vous avez {{ $demandeEnCours }}
+                                                        nouvelles demandes en attente de traitement</p>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </li>
                             @endif
                             <li class="user-profile header-notification">
                                 <a href="#!">
@@ -171,19 +180,18 @@
                                 <ul class="show-notification profile-notification">
                                     <li>
                                         <a href="#">
-                                            <i class="ti-user"></i> 
-                                           {{ Auth::user()->mairies->name ?? "Aucune mairie"}}
+                                            <i class="ti-user"></i>
+                                            @if (Auth::user()->role == 'agent')
+                                                Agent
+                                            @elseif(Auth::user()->role == 'admin')
+                                                Administrateur
+                                            @endif
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{route('profile')}}">
-                                            <i class="ti-user"></i> 
-                                            Profile
-                                            @if ( Auth::user()->role == "agent")
-                                                (Agent)
-                                            @elseif(Auth::user()->role == "admin")
-                                                (Administrateur)
-                                            @endif
+                                        <a href="{{ route('profile') }}">
+                                            <i class="ti-user"></i>
+                                            Profil
                                         </a>
                                     </li>
                                     <li>
@@ -220,7 +228,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="{{ $title === 'Régions' ? 'active' : '' }}">
+                                    {{-- <li class="{{ $title === 'Régions' ? 'active' : '' }}">
                                         <a href="{{ route('admin.regions.index') }}">
                                             <span class="pcoded-micon"><i class="ti-map-alt"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.dash.main">Régions</span>
@@ -240,7 +248,7 @@
                                             <span class="pcoded-micon"><i class="ti-location-pin"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.dash.main">Mairies</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
 
                                 </ul>
                                 <div class="pcoded-navigatio-lavel" data-i18n="nav.category.forms">Ressources humaines
@@ -255,11 +263,52 @@
                                         </a>
                                     </li>
 
+                                    <li class="{{ $title === 'Guichet Naissance' ? 'active' : '' }}">
+                                        <a href="{{ route('admin.guichet_naissance') }}">
+                                            <span class="pcoded-micon"><i class="ti-files"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Guichet
+                                                Naissance</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="{{ $title === 'Guichet Décès' ? 'active' : '' }}">
+                                        <a href="{{ route('admin.guichet_deces') }}">
+                                            <span class="pcoded-micon"><i class="ti-files"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Guichet Décès</span>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="{{ $title === 'Guichet Mariage' ? 'active' : '' }}">
+                                        <a href="{{ route('admin.guichet_mariage') }}">
+                                            <span class="pcoded-micon"><i class="ti-files"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Guichet
+                                                Mariage</span>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="{{ $title === 'Guichet Divorce' ? 'active' : '' }}">
+                                        <a href="{{ route('admin.guichet_divorce') }}">
+                                            <span class="pcoded-micon"><i class="ti-files"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Guichet
+                                                Divorce</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="{{ $title === 'Guichet Certificats' ? 'active' : '' }}">
+                                        <a href="{{ route('admin.guichet_certificat') }}">
+                                            <span class="pcoded-micon"><i class="ti-files"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Guichet
+                                                Certificats</span>
+                                        </a>
+                                    </li>
+
                                     <li class="">
                                         <a href="{{ route('admin.delete_all_guichets') }}">
                                             <span class="pcoded-micon"><i class="ti-trash"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.form-components.main">
-                                              Supprimer données
+                                                Supprimer données
                                             </span>
                                         </a>
                                     </li>
@@ -272,7 +321,7 @@
                                             </span>
                                         </a>
                                     </li>
-                                    
+
                                 </ul>
 
                             </div>
@@ -315,7 +364,7 @@
                                         </a>
                                     </li>
 
-                                    
+
                                     <li class="{{ $title === 'Guichet Divorce' ? 'active' : '' }}">
                                         <a href="{{ route('agent.guichet-divorce.index') }}">
                                             <span class="pcoded-micon"><i class="ti-files"></i></span>
@@ -325,21 +374,14 @@
                                     </li>
 
                                     <li class="{{ $title === 'Guichet Certificats' ? 'active' : '' }}">
-                                        <a href="{{route('agent.guichet-certificats.index')}}">
+                                        <a href="{{ route('agent.guichet-certificats.index') }}">
                                             <span class="pcoded-micon"><i class="ti-files"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.dash.main">Guichet
                                                 Certificats</span>
                                         </a>
                                     </li>
 
-                                    <li class="">
-                                        <a href="{{ route('agent.delete_all_guichets', Auth::user()->mairie_id) }}">
-                                            <span class="pcoded-micon"><i class="ti-trash"></i></span>
-                                            <span class="pcoded-mtext" data-i18n="nav.form-components.main">
-                                              Supprimer données
-                                            </span>
-                                        </a>
-                                    </li>
+
 
                                 </ul>
                             </div>
@@ -350,11 +392,8 @@
                         <div class="pcoded-inner-content">
                             <div class="main-body">
                                 <div class="page-wrapper">
-
                                     @yield('content')
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -388,7 +427,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
-        $('#dataTable' ).DataTable({
+        $('#dataTable').DataTable({
             "paging": true,
             "lengthChange": false,
             "searching": true,
@@ -400,7 +439,7 @@
             ],
             "language": {
                 "sEmptyTable": "Aucune donnée disponible",
-                "sInfo": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                "sInfo": "Afficher _START_ à _END_ sur _TOTAL_ éléments",
                 "sInfoEmpty": " 0 à 0 sur 0 élément",
                 "sInfoFiltered": "(filtré à partir de _MAX_ éléments au total)",
                 "sInfoPostFix": "",
@@ -418,8 +457,6 @@
                 },
             }
         });
-
-        
     </script>
 
 

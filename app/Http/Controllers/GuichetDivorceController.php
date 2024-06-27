@@ -41,9 +41,6 @@ class GuichetDivorceController extends Controller
         ];
 
         $data = $request->validate([
-            'region' => 'required',
-            'mairie' => 'required',
-            'departement'=>'required',
             'numero_acte_divorce' => 'required',
             'annee_divorce' =>'required|integer|between:1000,9999',
             'telephone' => 'required',
@@ -53,9 +50,6 @@ class GuichetDivorceController extends Controller
 
         $code = 'SN-' . mt_rand(1000000, 9999999);
         GuichetDivorce::create([
-            'region_id' => $data['region'],
-            'mairie_id' => $data['mairie'],
-            'departement_id'=> $data['departement'],
             'numero_acte_divorce' => $data['numero_acte_divorce'],
             'annee_divorce' => $data['annee_divorce'],
             'telephone' => $data['telephone'],

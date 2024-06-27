@@ -2,21 +2,21 @@
 
 
 @section('content')
-<div class="page-header-title">
-    <div class="row mx-auto">
-        <div class="col-12">
-            <h4>Gestion des agents</h4>
+    <div class="page-header-title">
+        <div class="row mx-auto">
+            <div class="col-12">
+                <h4>Gestion des agents</h4>
+            </div>
         </div>
-       
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <a href="{{ route('admin.agents.create') }}" class="btn btn-primary">Ajouter un agent</a>
-        </div>
-    </div>
-   
-</div>
 
+    </div>
+    <div class="page-header-title">
+        <div class="row mt-2">
+            <div class="col-12 text-end">
+                <a href="{{ route('admin.agents.create') }}" class="btn btn-primary">Ajouter un agent</a>
+            </div>
+        </div>
+    </div>
 
 
     <div class="page-body mt-4">
@@ -52,7 +52,6 @@
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Téléphone</th>
                                 <th class="text-center">Role</th>
-                                <th class="text-center">Mairie</th>
                                 <th class="text-center">Editer</th>
                                 <th class="text-center">admin</th>
                                 <th class="text-center">Supprimer</th>
@@ -71,7 +70,6 @@
                                             <span class="badge bg-warning">Agent</span>
                                         @endif
                                     </td>
-                            <td class="text-center">{{ $agent->mairies->name ?? "-" }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.agents.show', $agent->id) }}"
                                             class="btn btn-secondary btn-icon">
@@ -112,59 +110,5 @@
             </div>
         </div>
         <!-- Basic table card end -->
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title text-center" id="exampleModalLabel">Modifier la région</h4>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" id="editRegionForm" action="{{ route('admin.regions.update', 0) }}">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Nom de la région</label>
-                            <input type="text" name="name" class="form-control" id="name">
-                            @error('name')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Modifier</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection

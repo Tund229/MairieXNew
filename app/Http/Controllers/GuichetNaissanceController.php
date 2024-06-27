@@ -31,7 +31,7 @@ class GuichetNaissanceController extends Controller
     public function store(Request $request)
     {
 
-       
+
         $customMessages = [
             'required' => 'Veuillez remplir ce champ.',
             'file' => 'Ce champ  doit être un fichier.',
@@ -42,11 +42,8 @@ class GuichetNaissanceController extends Controller
             'between' => 'L\'année est incorrecte',
 
         ];
-       
+
         $data = $request->validate([
-            'region' => 'required',
-            'mairie' => 'required',
-            'departement' => 'required',
             'nom' => 'required',
             'prenom' => 'required',
             'lieu_naissance' => 'required',
@@ -61,12 +58,9 @@ class GuichetNaissanceController extends Controller
         ], $customMessages);
 
 
-      
+
         $code = 'SN-' . mt_rand(1000000, 9999999);
         GuichetNaissance::create([
-            'region_id' => $data['region'],
-            'mairie_id' => $data['mairie'],
-            'departement_id' => $data['departement'],
             'nom' => $data['nom'],
             'prenom' => $data['prenom'],
             'lieu_naissance' => $data['lieu_naissance'],
@@ -81,7 +75,7 @@ class GuichetNaissanceController extends Controller
             'code' => $code,
             'infos_demande'=>json_encode($data['infos_demande'])
         ]);
-       
+
 
         $message = 'Votre demande a été enregistrée avec le code de suivi : ' . $code;
         $request->session()->flash('status', $message);

@@ -19,10 +19,8 @@ class GuichetNaissanceController extends Controller
     public function index()
     {
         $title = "Guichet Naissance";
-        $agent_mairie = Auth::user()->mairie_id;
-        $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
+        $demandeEnCours = $this->countGuichetAgent('en_traitement');
         $guichetNaissances = GuichetNaissance::orderBy('state', 'asc')
-        ->where('mairie_id', $agent_mairie)
         ->orderBy('created_at', 'desc')
         ->get();
         return view('agent.guichetNaissance.index', compact('title', 'guichetNaissances', 'demandeEnCours'));
@@ -50,9 +48,8 @@ class GuichetNaissanceController extends Controller
     public function show(string $id)
     {
         $title = "Guichet Naissance";
-        $agent_mairie = Auth::user()->mairie_id;
         $guichetNaissance = GuichetNaissance::where('id', $id)->first();
-        $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
+        $demandeEnCours = $this->countGuichetAgent('en_traitement');
         return view('agent.guichetNaissance.show', compact('title', 'guichetNaissance', 'demandeEnCours'));
     }
 
@@ -112,10 +109,10 @@ class GuichetNaissanceController extends Controller
             session()->flash('error_message', $message);
         }
         $guichetCertificat->update([
-            'state' => 'rejeté', 
-            'date_validation_rejet' => now(), 
-            'agent_id' => $agent_id, 
-            'motif' => $data['motif'] 
+            'state' => 'rejeté',
+            'date_validation_rejet' => now(),
+            'agent_id' => $agent_id,
+            'motif' => $data['motif']
         ]);
         $message = 'La demande a été rejetée. Le code de suivi est ' . $guichetCertificat->code;
         session()->flash('error_message', $message);
@@ -124,14 +121,14 @@ class GuichetNaissanceController extends Controller
     }
 
 
-    private function countGuichetAgent(String $state, int $mairie_id)
+    private function countGuichetAgent(String $state)
     {
 
-        $guichetNaissanceCount = GuichetNaissance::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetDecesCount = GuichetDeces::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetMariageCount = GuichetMariage::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetCertificatCount = GuichetCertificat::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetDivorceCount = GuichetDivorce::where('state', $state)->where('mairie_id', $mairie_id)->count();
+        $guichetNaissanceCount = GuichetNaissance::where('state', $state)->count();
+        $guichetDecesCount = GuichetDeces::where('state', $state)->count();
+        $guichetMariageCount = GuichetMariage::where('state', $state)->count();
+        $guichetCertificatCount = GuichetCertificat::where('state', $state)->count();
+        $guichetDivorceCount = GuichetDivorce::where('state', $state)->count();
         $total = $guichetNaissanceCount + $guichetDecesCount + $guichetMariageCount + $guichetCertificatCount + $guichetDivorceCount;
         return $total;
     }

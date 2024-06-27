@@ -16,15 +16,11 @@ return new class () extends Migration {
             $table->string('phone');
             $table->boolean('state')->default(1);
             $table->enum('role', ['admin', 'agent']);
-            $table->unsignedBigInteger('mairie_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('mairie_id')->references('id')->on('mairies')->onDelete('set null');
-
-
         });
     }
 

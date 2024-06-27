@@ -14,48 +14,10 @@
                 </div>
             @endif
 
-            <form class="" method="POST" action="{{ route('guichet-certificats.store') }}" enctype="multipart/form-data">
+            <form class="" method="POST" action="{{ route('guichet-certificats.store') }}"
+                enctype="multipart/form-data">
                 @csrf
-                <div class="row mb-4">
-                    <div class="form-group col-md-4">
-                        <label for="region">Région</label>
-                        <select name="region" id="region" class="form-control">
-                            <option value="" disabled selected style="color: #17a589;">--Sélectionnez une région --
-                            </option>
-                            @foreach ($regions as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('region')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-
-                    <div class="form-group col-md-4">
-                        <label for="region">Département</label>
-                        <select name="departement" id="departement" class="form-control">
-                            <option value="" disabled selected style="color: #17a589;">--Sélectionnez un département
-                                --
-                            </option>
-
-                        </select>
-                        @error('departement')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="mairie">Commune</label>
-                        <select name="mairie" id="mairie" class="form-control">
-                            <option value="" disabled selected style="color: #17a589;">--Sélectionnez une commune--
-                            </option>
-                        </select>
-                        @error('mairie')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
+            
 
                 <div class="row mb-4">
                     <div class="form-group col-md-6">
@@ -120,7 +82,7 @@
                 </div>
 
 
-               
+
 
                 <div class="row mb-4">
 
@@ -146,7 +108,8 @@
 
                 </div>
 
-                 <div style=" color:red; "> <u>NB</u><br> 150F CFA (FRAIS DE SERVICE)+ (NOMBRE EXEMPLAIRE X PRIX DU TIMBRE ) <br><br> </div>
+                <div style=" color:red; "> <u>NB</u><br> 150F CFA (FRAIS DE SERVICE)+ (NOMBRE EXEMPLAIRE X PRIX DU TIMBRE )
+                    <br><br> </div>
 
 
                 <div class="col-md-4 float-right">
@@ -159,48 +122,6 @@
     </section>
 
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#region').on('change', function() {
-                var regionId = $(this).val();
-                if (regionId) {
-                    $.get('/departements/' + regionId, function(data) {
-                        $('#departement').empty().append($(
-                            ' <option value="" disabled selected style="color: #17a589;">--Sélectionnez un département--</option>'
-                            ));
-                        $.each(data, function(departementId, departementNom) {
-                            $('#departement').append($('<option value="' + departementId +
-                                '">' +
-                                departementNom + '</option>'));
-                        });
-                    });
-                } else {
-                    $('#departement').empty().append($(
-                        '<option value="">Sélectionnez un département</option>'));
-                }
-            });
-
-
-            $('#departement').on('change', function() {
-                var departementId = $(this).val();
-                if (departementId) {
-                    $.get('/mairies/' + departementId, function(data) {
-                        $('#mairie').empty().append($(
-                            ' <option value="" disabled selected style="color: #17a589;">--Sélectionnez une commune--</option>'
-                            ));
-                        $.each(data, function(mairieId, mairieNom) {
-                            $('#mairie').append($('<option value="' + mairieId + '">' +
-                                mairieNom + '</option>'));
-                        });
-                    });
-                } else {
-                    $('#mairie').empty().append($('<option value="">Sélectionnez une commune</option>'));
-                }
-            });
-        });
-    </script>
 
 
     <script>

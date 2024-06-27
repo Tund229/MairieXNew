@@ -41,27 +41,6 @@
                     <div class="card-block p-b-10">
                         <div class="form-group row">
                             <div class="col-12 col-sm-6">
-                                <label for="region" class="col-form-label">
-                                    Région
-                                </label>
-                                <p class="list-group-item">{{ $guichetNaissance->region->name }}</p>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <label for="departement" class="col-form-label">
-                                    Département
-                                </label>
-                                <p class="list-group-item">{{ $guichetNaissance->departement->name }}</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-12 col-sm-6">
-                                <label for="region" class="col-form-label">
-                                    Mairie
-                                </label>
-                                <p class="list-group-item">{{ $guichetNaissance->mairie->name }}</p>
-                            </div>
-                            <div class="col-12 col-sm-6">
                                 <label for="departement" class="col-form-label">
                                     Nom
                                 </label>
@@ -129,7 +108,7 @@
                             </div>
                             <div class="col-12 col-sm-6">
                                 <label for="departement" class="col-form-label">
-                                    N° de l'acte de naissance 
+                                    N° de l'acte de naissance
                                 </label>
                                 <p class="list-group-item">{{ $guichetNaissance->numero_acte_naissance }}</p>
                             </div>
@@ -176,7 +155,7 @@
 
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
 

@@ -26,8 +26,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 // mairies
-Route::get('/departements/{regionId}', [HomeController::class, 'getDepartementByRegion']);
-Route::get('/mairies/{departementId}', [HomeController::class, 'getMairieByDepartement']);
+// Route::get('/departements/{regionId}', [HomeController::class, 'getDepartementByRegion']);
+// Route::get('/mairies/{departementId}', [HomeController::class, 'getMairieByDepartement']);
 
 Route::post('/suivre-demande', [HomeController::class, 'suivre_demande'])->name('suivi-demande');
 Route::get('/suivi-demande', [HomeController::class, 'showSuivi'])->name('showSuivi');
@@ -69,8 +69,8 @@ Route::group(['prefix' => 'guichet-certificat'], function () {
 // Admin
 Route::namespace('App\\Http\\Controllers\\Admin')->prefix('admin')->name('admin.')->middleware("is_admin")->group(function () {
     Route::resources([
-        'regions' => "RegionController", // gestion des regions
-        'departements' => "DepartementController", // gestion des départements
+        // 'regions' => "RegionController", // gestion des regions
+        // 'departements' => "DepartementController", // gestion des départements
         'mairies' => "MairieController", // gestion des mairies
         'agents' => "AgentController", // gestion des mairies
     ]);

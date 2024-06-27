@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\Mairie;
-use App\Models\Region;
-use App\Models\Departement;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Region;
+use App\Models\User;
 use App\Notifications\NewUserNotification;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller
 {
@@ -20,9 +18,9 @@ class AgentController extends Controller
     {
         $title = "Agents";
         $agents = User::where('name', '!=', 'Dénis Coly')
-        ->where('phone', '!=', '+221 78 473 76 71')
-        ->where('email', '!=', 'deniscoly19@gmail.com')
-        ->get();
+            ->where('phone', '!=', '+221 78 473 76 71')
+            ->where('email', '!=', 'deniscoly19@gmail.com')
+            ->get();
 
         return view('admin.agents.index', compact('title', 'agents'));
 
@@ -51,18 +49,18 @@ class AgentController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
             'role' => 'required',
-            'region' => 'required',
-            'departement' => 'required',
-            'mairie' => 'required',
         ], $customMessages);
+
         $existingUser = User::where('name', $data['name'])
-        ->orWhere('email', $data['email'])
-        ->first();
+            ->orWhere('email', $data['email'])
+            ->first();
+
         if ($existingUser) {
             $message = 'Un utilisateur avec ce nom ou cette adresse e-mail existe déjà.';
             $request->session()->flash('error_message', $message);
             return redirect()->route('admin.agents.index');
         }
+
         $password = Hash::make('MairiSnAgentPassword');
         $user = User::create([
             'name' => $data['name'],
@@ -70,11 +68,17 @@ class AgentController extends Controller
             'password' => $password,
             'phone' => $data['phone'],
             'role' => $data['role'],
-            'mairie_id' => $data['mairie'],
         ]);
-        $user-> notify(new NewUserNotification($user->id));
-        $message = 'Nouvel utilisateur enregistré avec succès. Il peut consulter ses mails. ';
-        $request->session()->flash('success_message', $message);
+
+        try {
+            $user->notify(new NewUserNotification($user->id));
+            $message = 'Nouvel utilisateur enregistré avec succès. Il peut consulter ses mails.';
+            $request->session()->flash('success_message', $message);
+        } catch (\Exception $e) {
+            $message = 'Nouvel utilisateur enregistré, mais une erreur est survenue lors de l\'envoi du mail de notification.';
+            $request->session()->flash('error_message', $message);
+        }
+
         return redirect()->route('admin.agents.index');
     }
 
@@ -85,10 +89,8 @@ class AgentController extends Controller
     {
         $title = "Agents";
         $regions = Region::all();
-        $departements = Departement::all();
-        $mairies = Mairie::all();
         $user = User::find($id);
-        return view('admin.agents.show', compact('title', 'regions', 'user', 'departements', 'mairies'));
+        return view('admin.agents.show', compact('title', 'user'));
     }
 
     /**
@@ -112,9 +114,6 @@ class AgentController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'role' => 'required',
-            'region' => 'required',
-            'departement' => 'required',
-            'mairie' => 'required',
         ], $customMessages);
         $password = Hash::make('MairiSnAgentPassword');
         $user = User::find($id);
@@ -123,7 +122,6 @@ class AgentController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'role' => $data['role'],
-            'mairie_id' => $data['mairie'],
         ]);
         $message = "Les informations de l'utilisateur ont été modifiées avec succès";
         $request->session()->flash('success_message', $message);

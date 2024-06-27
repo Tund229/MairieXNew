@@ -27,8 +27,7 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr class="text-nowrap">
-                                        <th class="text-center">Région</th>
-                                        <th class="text-center">Mairie</th>
+
                                         <th class="text-center">Nom</th>
                                         <th class="text-center">Prénom</th>
                                         <th class="text-center">Lieu de naissance</th>
@@ -42,8 +41,6 @@
                                 <tbody>
                                     @foreach ($guichetCertificats as $guichetCertificat)
                                         <tr>
-                                            <td class="text-center ">{{ $guichetCertificat->region->name }}</td>
-                                            <td class="text-center ">{{ $guichetCertificat->mairie->name }} </td>
                                             <td class="text-center">{{ $guichetCertificat->nom }}</td>
                                             <td class="text-center">{{ $guichetCertificat->prenom }}</td>
                                             <td class="text-center">{{ $guichetCertificat->lieu_naissance }}</td>

@@ -17,47 +17,7 @@
             @endif
             <form class="" method="POST" action="{{ route('guichet-deces.store') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="row mb-4">
-
-                    <div class="form-group col-md-4">
-                        <label for="region">Région</label>
-                        <select name="region" id="region" class="form-control">
-                            <option value="" disabled selected style="color: #17a589;">--Sélectionnez une région --
-                            </option>
-                            @foreach ($regions as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('region')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-
-                    <div class="form-group col-md-4">
-                        <label for="region">Département</label>
-                        <select name="departement" id="departement" class="form-control">
-                            <option value="" disabled selected style="color: #17a589;">--Sélectionnez un département
-                                --
-                            </option>
-
-                        </select>
-                        @error('departement')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="mairie">Commune</label>
-                        <select name="mairie" id="mairie" class="form-control">
-                            <option value="" disabled selected style="color: #17a589;">--Sélectionnez une commune--
-                            </option>
-                        </select>
-                        @error('mairie')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
+                
 
                 <div class="row mb-4">
                     <div class="form-group col-md-6">
@@ -98,7 +58,7 @@
                 </div>
 
 
-               
+
 
 
                 <div class="row mb-4">

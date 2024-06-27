@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(RegionSeeder::class);
-        $this->call(DepartementSeeder::class);
-         $this->call(MairieSeeder::class);
+        // $this->call(RegionSeeder::class);
+        // $this->call(DepartementSeeder::class);
+        //  $this->call(MairieSeeder::class);
         $this->call(UserSeeder::class);
 
 

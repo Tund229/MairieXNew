@@ -38,13 +38,10 @@ class GuichetDecesController extends Controller
             'mimes' => 'Ce champ doit être un jpg,jpeg ou png ',
             'integer' => 'Ce champ doit être un nombre entier.',
             'between' => 'L\'année est incorrecte',
-        
+
         ];
 
         $data = $request->validate([
-            'region' => 'required',
-            'mairie' => 'required',
-            'departement' => 'required',
             'prenom_defunt' => 'required',
             'nom_defunt' => 'required',
             'telephone_demandeur' => 'required',
@@ -62,9 +59,6 @@ class GuichetDecesController extends Controller
         $nomFichier = 'SN-' . $fichier->hashName();
         $chemin = $fichier->storeAs('GuichetDeces' . '-' . $nomFichier);
         GuichetDeces::create([
-            'region_id' => $data['region'],
-            'mairie_id' => $data['mairie'],
-            'departement_id' => $data['departement'],
             'nom_defunt' => $data['nom_defunt'],
             'prenom_defunt' => $data['prenom_defunt'],
             'nombre_copies' => $data['nombre_copies'],

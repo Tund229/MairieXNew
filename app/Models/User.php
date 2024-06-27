@@ -51,18 +51,18 @@ class User extends Authenticatable
     ];
 
 
-    public function mairies()
-    {
-        return $this->belongsTo(Mairie::class, 'mairie_id');
-    }
+    // public function mairies()
+    // {
+    //     return $this->belongsTo(Mairie::class, 'mairie_id');
+    // }
 
-    public function departements()
-    {
-        return $this->belongsTo(Departement::class, 'departement_id');
-    }
+    // public function departements()
+    // {
+    //     return $this->belongsTo(Departement::class, 'departement_id');
+    // }
 
-    public function regions()
-    {
-        return $this->belongsTo(Region::class, 'region_id');
-    }
+    // public function regions()
+    // {
+    //     return $this->belongsTo(Region::class, 'region_id');
+    // }
 }

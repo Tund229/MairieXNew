@@ -77,54 +77,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Région
-                                </label>
-                                <div class="col-sm-10">
-                                    <select name="region" id="region" class="form-control">
-                                        <option value="" disabled selected style="color: #17a589;">--Sélectionnez une
-                                            région --
-                                        </option>
-                                        @foreach ($regions as $region)
-                                            <option value="{{ $region->id }}">{{ $region->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('region')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Département
-                                </label>
-                                <div div class="col-sm-10">
-                                    <select name="departement" id="departement" class="form-control">
-                                        <option value="" disabled selected style="color: #17a589;">--Sélectionnez un
-                                            département
-                                            --
-                                        </option>
 
-                                    </select>
-                                    @error('departement')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Mairie
-                                </label>
-                                <div class="col-sm-10">
-                                    <select name="mairie" id="mairie" class="form-control">
-                                        <option value="" disabled selected style="color: #17a589;">--Sélectionnez une
-                                            mairie--
-                                        </option>
-                                    </select>
-                                    @error('mairie')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
+                           
                             <div class="form-group row justify-content-end m-4">
 
                                 <button class="btn btn-primary" type="submit">Ajouter</button>

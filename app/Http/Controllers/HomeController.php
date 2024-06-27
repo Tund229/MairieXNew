@@ -65,16 +65,16 @@ class HomeController extends Controller
             $mariage = GuichetMariage::all();
             $divorce = GuichetDivorce::all();
             return view('home', compact('title', 'demandeEnCours', 'demandeTerminee', 'demandeRejetee', 'agent', 'naissance', 'deces', 'certificat', 'mariage', 'divorce'));
-        } elseif($user->role == "agent") {
-            $agent_mairie = $user->mairie_id;
-            $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
-            $demandeTerminee = $this->countGuichetAgent('terminé', $agent_mairie);
-            $demandeRejetee = $this->countGuichetAgent('rejeté', $agent_mairie);
-            $naissance = GuichetNaissance::where('mairie_id', $agent_mairie)->get();
-            $deces = GuichetDeces::where('mairie_id', $agent_mairie)->get();
-            $certificat = GuichetCertificat::where('mairie_id', $agent_mairie)->get();
-            $mariage = GuichetMariage::where('mairie_id', $agent_mairie)->get();
-            $divorce = GuichetDivorce::where('mairie_id', $agent_mairie)->get();
+         }
+         elseif($user->role == "agent") {
+            $demandeEnCours = $this->countGuichet('en_traitement');
+            $demandeTerminee = $this->countGuichet('terminé');
+            $demandeRejetee = $this->countGuichet('rejeté');
+            $naissance = GuichetNaissance::all();
+            $deces = GuichetDeces::all();
+            $certificat = GuichetCertificat::all();
+            $mariage = GuichetMariage::all();
+            $divorce = GuichetDivorce::all();
             return view('home', compact('title', 'demandeEnCours', 'demandeTerminee', 'demandeRejetee', 'naissance', 'deces', 'certificat', 'mariage', 'divorce'));
         }
 
@@ -196,26 +196,26 @@ class HomeController extends Controller
                 $guichetData = $guichetDivorce;
             }
         }
-        
+
         return view('suivi-demande', compact('guichetData'));
     }
 
 
 
-    public function getDepartementByRegion(Request $request, $regionId)
-    {
-        $departements = Departement::where('region_id', $regionId)->get();
-        $departementsData = $departements->pluck('name', 'id');
-        return response()->json($departementsData);
-    }
+    // public function getDepartementByRegion(Request $request, $regionId)
+    // {
+    //     $departements = Departement::where('region_id', $regionId)->get();
+    //     $departementsData = $departements->pluck('name', 'id');
+    //     return response()->json($departementsData);
+    // }
 
 
-    public function getMairieByDepartement(Request $request, $departement_id)
-    {
-        $mairies = Mairie::where('departement_id', $departement_id)->get();
-        $mairiesData = $mairies->pluck('name', 'id');
-        return response()->json($mairiesData);
-    }
+    // public function getMairieByDepartement(Request $request, $departement_id)
+    // {
+    //     $mairies = Mairie::where('departement_id', $departement_id)->get();
+    //     $mairiesData = $mairies->pluck('name', 'id');
+    //     return response()->json($mairiesData);
+    // }
 
 
     public function restore_account(Request $request)
@@ -230,7 +230,7 @@ class HomeController extends Controller
         } else {
             ResetAgent::updateOrCreate(
                 [
-                    'email' => $email, 
+                    'email' => $email,
                 ],
                 [
                     'mairie_id' => $user->mairie_id,
@@ -276,7 +276,7 @@ class HomeController extends Controller
             'required' => 'Veuillez remplir ce champ.',
             'confirmed'=>'Les mots de passe ne correspondent pas',
             'min'=>'Le mot de passe doit avoir au moins 8 caractères'
-           
+
         ];
         $data = $request->validate([
             'old_password' => 'required',

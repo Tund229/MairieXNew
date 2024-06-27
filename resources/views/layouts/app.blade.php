@@ -37,6 +37,8 @@
                 <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0 ">
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white"
                             href="{{ route('welcome') }}">Accueil</a></li>
+                            <li class="nav-item"><a class="nav-link me-lg-3 text-white" href="#about">A propos</a></li>
+
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white" href="#services">Services</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white"
@@ -47,6 +49,35 @@
     </nav>
 
     @yield('content')
+    <section class="py-5" id="about">
+        <div class="container">
+            <div class="row gx-4 align-items-center justify-content-between">
+                <div class="col-md-5 order-2 order-md-1">
+                    <div class="mt-5 mt-md-0">
+                        <h2 class="display-5 fw-bold">About Us</h2>
+                        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris .</p>
+                        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 offset-md-1 order-1 order-md-2">
+                    <div class="row gx-2 gx-lg-3">
+                        <div class="col-6">
+                            <div class="mb-2"><img class="img-fluid rounded-3" src="https://freefrontend.dev/assets/square.png"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-2"><img class="img-fluid rounded-3" src="https://freefrontend.dev/assets/square.png"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-2"><img class="img-fluid rounded-3" src="https://freefrontend.dev/assets/square.png"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-2"><img class="img-fluid rounded-3" src="https://freefrontend.dev/assets/square.png"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Services Section -->
     <section class="bg-light py-3 py-md-5 py-xl-8" id="services">

@@ -14,9 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('name');
             $table->boolean('state')->default(1);
-            $table->unsignedBigInteger('departement_id')->nullable();
             $table->timestamps();
-            $table->foreign('departement_id')->references('id')->on('departements')->onDelete('set null');
         });
     }
 

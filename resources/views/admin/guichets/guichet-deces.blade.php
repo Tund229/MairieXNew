@@ -27,8 +27,6 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr class="text-nowrap">
-                                        <th class="text-center">Région</th>
-                                        <th class="text-center">Mairie</th>
                                         <th class="text-center">Nom défunt</th>
                                         <th class="text-center">Prénom défunt</th>
                                         <th class="text-center">Numéro acte de décès</th>
@@ -43,8 +41,6 @@
                                 <tbody>
                                     @foreach ($guichetDeces as $guichetDece)
                                         <tr>
-                                            <td class="text-center ">{{ $guichetDece->region->name }}</td>
-                                            <td class="text-center ">{{ $guichetDece->mairie->name }}</td>
                                             <td class="text-center">{{ $guichetDece->nom_defunt }}</td>
                                             <td class="text-center">{{ $guichetDece->prenom_defunt }}</td>
                                             <td class="text-center">{{ $guichetDece->numero_acte_deces }}</td>

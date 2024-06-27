@@ -27,8 +27,6 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr class="text-nowrap">
-                                        <th class="text-center">Région</th>
-                                        <th class="text-center">Mairie</th>
                                         <th class="text-center">Numéro de l'acte <br>
                                             de divorce</th>
                                         <th class="text-center">Anné divorce</th>
@@ -42,8 +40,6 @@
                                 <tbody>
                                     @foreach ($guichetDivorces as $guichetDivorce)
                                         <tr>
-                                            <td class="text-center ">{{ $guichetDivorce->region->name }}</td>
-                                            <td class="text-center ">{{ $guichetDivorce->mairie->name }}</td>
                                             <td class="text-center">{{ $guichetDivorce->numero_acte_divorce }}</td>
                                             <td class="text-center">{{ $guichetDivorce->annee_divorce }}</td>
                                             <td class="text-center">{{ $guichetDivorce->telephone }}</td>

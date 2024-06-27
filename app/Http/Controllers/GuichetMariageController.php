@@ -44,9 +44,6 @@ class GuichetMariageController extends Controller
 
 
         $data = $request->validate([
-            'region' => 'required',
-            'mairie' => 'required',
-            'departement' => 'required',
             'prenom_epoux' => 'required',
             'nom_epoux' => 'required',
             'prenom_epouse' => 'required',
@@ -65,9 +62,6 @@ class GuichetMariageController extends Controller
         $nomFichier = 'SN-' . $fichier->hashName();
         $chemin = $fichier->storeAs('GuichetMariage' . '-' . $nomFichier);
         GuichetMariage::create([
-            'region_id' => $data['region'],
-            'mairie_id' => $data['mairie'],
-            'departement_id' => $data['departement'],
             'nom_epoux' => $data['nom_epoux'],
             'prenom_epoux' => $data['prenom_epoux'],
             'nom_epouse' => $data['nom_epouse'],
