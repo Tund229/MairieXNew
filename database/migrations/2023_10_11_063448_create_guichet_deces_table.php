@@ -19,7 +19,7 @@ return new class () extends Migration {
             $table->string('numero_acte_deces');
             $table->string('telephone');
             $table->integer('annee_deces');
-            $table->json('fichiers')->nullable(); // Colonnes pour les fichiers en JSON
+            $table->string('fichier')->nullable();
             $table->json('fichiers_joints')->nullable(); // Colonnes pour les fichiers joints en JSON
             $table->json('infos_demande')->nullable();
             $table->string('code')->nullable();

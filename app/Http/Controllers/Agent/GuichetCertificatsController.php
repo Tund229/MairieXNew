@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Agent;
 
-use App\Models\GuichetDeces;
-use Illuminate\Http\Request;
-use App\Models\GuichetDivorce;
-use App\Models\GuichetNaissance;
-use App\Models\GuichetMariage;
-use App\Models\GuichetCertificat;
 use App\Http\Controllers\Controller;
+use App\Models\GuichetCertificat;
+use App\Models\GuichetDeces;
+use App\Models\GuichetDivorce;
+use App\Models\GuichetMariage;
+use App\Models\GuichetNaissance;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GuichetCertificatsController extends Controller
@@ -22,9 +22,9 @@ class GuichetCertificatsController extends Controller
         $agent_mairie = Auth::user()->mairie_id;
         $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
         $guichetCertificats = GuichetCertificat::orderBy('state', 'asc')
-        ->where('mairie_id', $agent_mairie)
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->where('mairie_id', $agent_mairie)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('agent.guichetCertificats.index', compact('title', 'guichetCertificats', 'demandeEnCours'));
     }
 
@@ -92,22 +92,51 @@ class GuichetCertificatsController extends Controller
         //
     }
 
-    public function valide($id)
+    public function valide($id, Request $request)
     {
         $guichetCertificat = GuichetCertificat::find($id);
         $agent_id = Auth::user()->id;
+
         if (!$guichetCertificat) {
             $message = "Une erreur s'est produite!";
             session()->flash('error_message', $message);
+            return redirect()->back();
         }
-        $guichetCertificat->update(['state' => 'terminé', 'date_validation_rejet' => now(),'agent_id'=>$agent_id  ]);
-        $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetCertificat->code;
-        session()->flash('success_message', $message);
+
+        // Vérifie s'il y a des fichiers téléchargés
+        if ($request->hasFile('fichiers')) {
+            $filePaths = [];
+
+            // Boucle à travers chaque fichier téléchargé
+            foreach ($request->file('fichiers') as $file) {
+                // Enregistre le fichier dans le stockage (par exemple, dans le dossier 'public')
+                $filePath = $file->store('public');
+
+                // Ajoute le chemin d'accès du fichier à la liste
+                $filePaths[] = $filePath;
+            }
+
+            // Met à jour le champ 'fichier_joint' avec les chemins d'accès des fichiers en JSON
+            $guichetCertificat->update([
+                'fichier_joint' => json_encode($filePaths),
+                'state' => 'terminé',
+                'date_validation_rejet' => now(),
+                'agent_id' => $agent_id,
+            ]);
+
+            // Message de succès
+            $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetCertificat->code;
+            session()->flash('success_message', $message);
+        } else {
+            // Message d'erreur si aucun fichier n'est téléchargé
+            $message = "Aucun fichier n'a été téléchargé.";
+            session()->flash('error_message', $message);
+        }
+
         return redirect()->back();
     }
 
-
-    public function rejete(Request $request,$id)
+    public function rejete(Request $request, $id)
     {
         $customMessages = [
             'required' => 'Veuillez remplir le motif du rejet.',
@@ -126,10 +155,10 @@ class GuichetCertificatsController extends Controller
         }
 
         $guichetCertificat->update([
-            'state' => 'rejeté', 
-            'date_validation_rejet' => now(), 
-            'agent_id' => $agent_id, 
-            'motif' => $data['motif'] 
+            'state' => 'rejeté',
+            'date_validation_rejet' => now(),
+            'agent_id' => $agent_id,
+            'motif' => $data['motif'],
         ]);
 
         $message = 'La demande a été rejetée. Le code de suivi est ' . $guichetCertificat->code;
