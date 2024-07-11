@@ -118,11 +118,12 @@ class GuichetCertificatsController extends Controller
             foreach ($request->file('fichiers') as $file) {
                 $extension = $file->getClientOriginalExtension();
                 $nomFichier = 'SN-' . uniqid() . '-' . $guichetCertificat->code . '.' . $extension;
-                $filePath = $file->storeAs( $nomFichier);
+                $filePath = $file->storeAs($nomFichier); // Assurez-vous de spécifier le chemin de stockage correct ici
 
                 $filePaths[] = $filePath;
             }
 
+            // Met à jour seulement si des fichiers sont téléchargés
             $guichetCertificat->update([
                 'fichiers_joints' => json_encode($filePaths),
                 'state' => 'terminé',
@@ -134,13 +135,21 @@ class GuichetCertificatsController extends Controller
             $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetCertificat->code;
             session()->flash('success_message', $message);
         } else {
-            // Message d'erreur si aucun fichier n'est téléchargé
-            $message = "Aucun fichier n'a été téléchargé.";
-            session()->flash('error_message', $message);
+            // Si aucun fichier n'est téléchargé, met à jour seulement les autres champs
+            $guichetCertificat->update([
+                'state' => 'terminé',
+                'date_validation_rejet' => now(),
+                'agent_id' => $agent_id,
+            ]);
+
+            // Message de succès
+            $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetCertificat->code;
+            session()->flash('success_message', $message);
         }
 
         return redirect()->back();
     }
+
 
     public function rejete(Request $request, $id)
     {
