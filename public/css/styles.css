@@ -73,6 +73,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: 'Nunito', sans-serif !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -10941,7 +10942,28 @@ section.cta {
   background-image: url("/assets/img/bgg2.jpeg") ;
   background-position: center;
   background-size: cover;
+
 }
+
+
+
+#typing-title {
+    font-size: 3rem;
+    color: #ffffff;
+}
+
+#typing-text {
+    font-size: 2rem;
+    color: #ffffff;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.btn {
+    font-size: 1.2rem;
+}
+
 section.cta .cta-content {
   position: relative;
   z-index: 1;

@@ -107,7 +107,7 @@ Route::namespace('App\\Http\\Controllers\\Agent')->prefix('agent')->name('agent.
 
     //guichet décès
     Route::post('guichet-deces/valide/{id}', 'GuichetDecesController@valide')->name('deces_valide');
-    Route::get('guichet-deces/rejete/{id}', 'GuichetDecesController@rejete')->name('deces_rejete');
+    Route::post('guichet-deces/rejete/{id}', 'GuichetDecesController@rejete')->name('deces_rejete');
 
 
     //guichet mariage

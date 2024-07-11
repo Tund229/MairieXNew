@@ -2,169 +2,335 @@
 
 @section('content')
     <section class="cta">
-        <div class="cta-content">
-            <div class="container">
-                {{-- <div class="text-center">
-                    <img src="{{ asset('assets/img/pse.png') }}" class="img-fluid" style="margin-top: -70px; margin-bottom:50px;">
-                </div> --}}
-
-                <div class="row">
-                    <div class="col-lg-12 order-lg-1 col-12">
-                        <h6 style="font-size: 42px;" class="text-primary  mb-4 ">
-                            MairieX le guichet unique d'etat civil virtuel au Sénégal
-                            <br />
-                            <span style="font-size: 30px;" class="text-white ">Vos demandes d'etat civil avec vous,
-                                partout !</span>
-                        </h6>
-
-                        <div class="d-flex flex-column flex-md-row ">
-                            <a class="btn btn-secondary py-2 px-4 rounded-pill mx-2 mb-2 mb-md-0"
-                                href="#features">Commencer</a>
-                            <button class="btn btn-primary py-2 px-4 rounded-pill" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-bs-whatever="@fat">
-                                Suivre sa demande
-                            </button>
-                        </div>
-
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center cta-content">
+                    <h1 id="typing-title" class="text-primary mb-4">SAMA ETAT CIVIL</h1>
+                    <h3 id="typing-text" class="text-white mb-4"></h3>
+                    <div class="d-flex flex-column flex-md-row justify-content-center">
+                        <a class="btn btn-secondary py-2 px-4 rounded-pill mx-2 mb-2 mb-md-0" href="#services">Commencer</a>
+                        <button class="btn btn-primary py-2 px-4 rounded-pill" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-bs-whatever="@fat">
+                            Suivre sa demande
+                        </button>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 
-
-    <!-- App features section-->
-    <section id="features" class="container">
-        <h2 class="text-center text-black font-alt" style="margin-bottom: 50px;">Guichets Ouverts</h2>
-        <div class=" px-4 mt-4 ">
-            <div class="row gx-4 align-items-center justify-content-around">
-                <div class="col-6">
-                    <div class="card mb-3 p-2 shadow border border-primary border-dotted"
-                        style="max-width: 540px; border: 2px dashed var(--bs-primary-rgb); transition: transform 0.3s 0.3s;">
-                        <a href="{{ route('guichet-naissance.index') }}" class="stretched-link"></a>
-                        <div class="row g-2 justify-content-center">
-                            <div class="col-12 col-md-4">
-                                <img src="{{ asset('assets/img/guichet/NAISSANCE.png') }}" class="img-fluid rounded-start"
-                                    alt="...">
-                            </div>
-                            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
-                                <div class="card-body">
-                                    <h5 class="card-title fs-md-4 fs-lg-5">Guichet naissance</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+    <!-- About -->
+    <section class="py-3 py-md-5 py-xl-8" id="about">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                    <h2 class="mb-4 display-5 text-center">
+                        A propos</h2>
+                    <p class="text-secondary mb-5 text-center lead fs-4">Notre plateforme facilite vos demandes d'actes
+                        d'état civil de manière efficace et sécurisée.</p>
+                    <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
                 </div>
-                <div class="col-6">
-                    <div class="card mb-3 p-2 shadow border border-primary border-dotted"
-                        style="max-width: 540px; border: 2px dashed var(--bs-primary-rgb); transition: transform 0.3s 0.3s;">
-                        <a href="{{ route('guichet-mariage.index') }}" class="stretched-link"></a>
-                        <div class="row g-2 justify-content-center">
-                            <div class="col-12 col-md-4">
-                                <img src="{{ asset('assets/img/guichet/MARIAGE.png') }}" class="img-fluid rounded-start"
-                                    alt="...">
-                            </div>
-                            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
-                                <div class="card-body ">
-                                    <h5 class="card-title fs-md-4 fs-lg-5">Guichet mariage</h5>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row gy-4 gy-lg-0 align-items-lg-center mb-4">
+                <div class="col-12 col-lg-6">
+                    <img class="img-fluid rounded" loading="lazy"
+                        src="https://emova-monceaufleurs-fr-storage.omn.proximis.com/Imagestorage/images/2560/1600/5f4754e392f8f_P1190087_copie.jpg"
+                        alt="About Us" style="max-width: 70%; height: 80%;">
+                </div>
+                <div class="col-12 col-lg-6 col-xxl-6">
+                    <div class="row justify-content-lg-end">
+                        <div class="col-12 col-lg-11">
+                            <div class="about-wrapper">
+                                <p class="lead mb-4 mb-md-5">Sama Etat Civil est dédié à simplifier vos démarches
+                                    administratives, offrant un accès facile et sécurisé aux services d'état civil. Nous
+                                    nous engageons à améliorer votre expérience et à répondre efficacement à vos besoins
+                                    administratifs.</p>
+                                <div class="row gy-4 mb-4 mb-md-5">
+                                    <div class="col-12 col-md-6">
+                                        <div class="card border border-dark">
+                                            <div class="card-body p-4">
+                                                <h3 class="display-5 fw-bold text-primary text-center mb-2">300+</h3>
+                                                <p class="fw-bold text-center m-0">Clients Satisfaits</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="card border border-dark">
+                                            <div class="card-body p-4">
+                                                <h3 class="display-5 fw-bold text-primary text-center mb-2">10+</h3>
+                                                <p class="fw-bold text-center m-0">Agents actifs</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-            <div class="row gx-4 align-items-center mt-4 justify-content-around">
-                <div class="col-6">
-                    <div class="card mb-3 p-2 shadow border border-primary border-dotted"
-                        style="max-width: 540px; border: 2px dashed var(--bs-primary-rgb); transition: transform 0.3s 0.3s;">
-                        <a href="{{ route('guichet-deces.index') }}" class="stretched-link"></a>
-                        <div class="row g-2 justify-content-center">
-                            <div class="col-12 col-md-4">
-                                <img src="{{ asset('assets/img/guichet/deces.png') }}" class="img-fluid rounded-start"
-                                    alt="...">
-                            </div>
-                            <div class="ccol-12 col-md-4 d-flex justify-content-center align-items-center">
-                                <div class="card-body ">
-                                    <h5 class="card-title fs-md-4 fs-lg-5">Guichet Décès</h5>
+            <div class="row gy-4 gy-lg-0 align-items-lg-center mt-4">
+                <div class="col-12 col-lg-6 order-lg-1">
+                    <div class="row justify-content-lg-end">
+                        <div class="col-12 col-lg-11">
+                            <div class="about-wrapper">
+                                <p class="lead mb-4 mb-md-5">Sama Etat Civil est votre guichet unique pour toutes vos
+                                    démarches administratives liées à l'état civil au Sénégal. Nous facilitons l'accès à vos
+                                    documents officiels avec une plateforme sécurisée et accessible à tout moment.</p>
+                                <div class="row gy-4 mb-4 mb-md-5">
+                                    <div class="col-12 col-md-6">
+                                        <div class="card border border-dark">
+                                            <div class="card-body p-4">
+                                                <h3 class="display-5 fw-bold text-primary text-center mb-2">370+</h3>
+                                                <p class="fw-bold text-center m-0">Demandes traitées</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="card border border-dark">
+                                            <div class="card-body p-4">
+                                                <h3 class="display-5 fw-bold text-primary text-center mb-2">24/7</h3>
+                                                <p class="fw-bold text-center m-0">Services Accessibles</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
+                <div class="col-12 col-lg-6 order-lg-2">
+                    <div class="row justify-content-lg-end">
 
-
-                <div class="col-6">
-                    <div class="card mb-3 p-2 shadow border border-primary border-dotted"
-                        style="max-width: 540px; border: 2px dashed var(--bs-primary-rgb); transition: transform 0.3s 0.3s;">
-                        <a href="{{ route('guichet-certificats.index') }}" class="stretched-link"></a>
-                        <div class="row g-2 justify-content-center">
-                            <div class="col-12 col-md-4">
-                                <img src="{{ asset('assets/img/guichet/GUICHET CERTIFICAT.png') }}"
-                                    class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="ccol-12 col-md-4 d-flex justify-content-center align-items-center">
-                                <div class="card-body ">
-                                    <h5 class="card-title fs-md-4 fs-lg-5">Guichet Certificats</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="row gx-4 align-items-center mt-4 justify-content-around">
-                <div class="col-6">
-                    <div class="card mb-3 p-2 shadow border border-primary border-dotted"
-                        style="max-width: 540px; border: 2px dashed var(--bs-primary-rgb); transition: transform 0.3s 0.3s;">
-                        <a href="{{ route('guichet-divorce.index') }}" class="stretched-link"></a>
-                        <div class="row g-2 justify-content-center">
-                            <div class="col-12 col-md-4">
-                                <img src="{{ asset('assets/img/guichet/DIVORCE.png') }}" class="img-fluid rounded-start"
-                                    alt="...">
-                            </div>
-                            <div class="ccol-12 col-md-4 d-flex justify-content-center align-items-center">
-                                <div class="card-body ">
-                                    <h5 class="card-title fs-md-4 fs-lg-5">Guichet Divorce</h5>
-                                </div>
-                            </div>
-                        </div>
-
+                        <img class="img-fluid rounded" loading="lazy"
+                            src="https://emova-monceaufleurs-fr-storage.omn.proximis.com/Imagestorage/images/2560/1600/5f4754e392f8f_P1190087_copie.jpg"
+                            alt="About Us" style="max-width: 70%; height: 80%;">
                     </div>
                 </div>
             </div>
-
         </div>
 
     </section>
 
 
+    <!-- Services Section -->
+    <section class="bg-light py-3 py-md-5 py-xl-8" id="services">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                    <h2 class="mb-4 display-5 text-center">
+                        Services</h2>
+                    <p class="text-secondary mb-5 text-center lead fs-4">Nous facilitons l'accès à vos
+                        documents officiels avec une plateforme sécurisée et accessible à tout moment.</p>
+                    <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container overflow-hidden">
+            <div class="row gy-4 gy-md-5 gy-lg-0 align-items-center mb-5"> <!-- Ajout de mb-5 ici -->
+                <!-- Première colonne avec 3 cartes -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card border-0 border-bottom border-primary shadow-sm">
+                        <div class="card-body text-center p-4 p-xxl-5">
+                            <img src="{{ asset('assets/baby-svgrepo-com.svg') }}" alt="Guichet naissance"
+                                class="lucide lucide-baby text-primary mb-4" width="50%">
+                            <h4 class="mb-4">Guichet naissance</h4>
+                            <p class="mb-4 text-secondary">
+                                Obtenez vos documents officiels comme la copie littérale d'acte de naissance et plus encore
+                                avec notre service dédié.
+                            </p>
+                            <a href="{{ route('guichet-naissance.index') }}"
+                                class="fw-bold text-decoration-none link-primary">
+                                Obtenir
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+                <!-- Deuxième colonne avec 3 cartes -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card border-0 border-bottom border-primary shadow-sm">
+                        <div class="card-body text-center p-4 p-xxl-5">
+                            <img src="{{ asset('assets/bride-and-groom-svgrepo-com.svg') }}" alt="Guichet naissance"
+                                class="lucide lucide-baby text-primary mb-4" width="50%">
+                            <h4 class="mb-4">Guichet mariage</h4>
+                            <p class="mb-4 text-secondary">
+                                Obtenez une copie littérale d'acte de mariage et un certificat de mariage avec notre service
+                                dédié.
+                            </p>
+                            <a href="{{ route('guichet-mariage.index') }}"
+                                class="fw-bold text-decoration-none link-primary">
+                                Obtenir
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Troisième colonne avec 3 cartes -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card border-0 border-bottom border-primary shadow-sm">
+                        <div class="card-body text-center p-4 p-xxl-5">
+                            <img src="{{ asset('assets/death-alt2-svgrepo-com.svg') }}" alt="Guichet naissance"
+                                class="lucide lucide-baby text-primary mb-4" width="50%">
+
+                            <h4 class="mb-4">Guichet Décès</h4>
+                            <p class="mb-4 text-secondary">Obtenez un extrait de décès et un certificat de décès facilement
+                                et rapidement avec notre service.
+                            </p>
+                            <a href="{{ route('guichet-deces.index') }}"
+                                class="fw-bold text-decoration-none link-primary">
+                                Obtenir
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Deuxième rangée de cartes avec 2 colonnes -->
+            <div class="row gy-4 gy-md-5 gy-lg-0 align-items-center">
+                <!-- Quatrième colonne avec 2 cartes -->
+                <div class="col-12 col-md-6">
+                    <div class="card border-0 border-bottom border-primary shadow-sm">
+                        <div class="card-body text-center p-4 p-xxl-5">
+                            <img src="{{ asset('assets/certificate-svgrepo-com.svg') }}" alt="Guichet naissance"
+                                class="lucide lucide-baby text-primary mb-4" width="20%">
+
+                            <h4 class="mb-4">Guichet Certificats</h4>
+                            <p class="mb-4 text-secondary"> Obtenez un certificat de résidence et un certificat de domicile
+                                rapidement et facilement.
+                            </p>
+                            <a href="{{ route('guichet-certificats.index') }}"
+                                class="fw-bold text-decoration-none link-primary">
+                                Obtenir
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cinquième colonne avec 2 cartes -->
+                <div class="col-12 col-md-6">
+                    <div class="card border-0 border-bottom border-primary shadow-sm">
+                        <div class="card-body text-center p-4 p-xxl-5">
+                            <img src="{{ asset('assets/divorce-harem-svgrepo-com.svg') }}" alt="Guichet naissance"
+                                class="lucide lucide-baby text-primary mb-4" width="20%">
+
+                            <h4 class="mb-4">Guichet Divorce</h4>
+                            <p class="mb-4 text-secondary"> Obtenez un certificat de divorce et d'autres documents
+                                importants liés à votre situation familiale.
+                            </p>
+                            <a href="{{ route('guichet-divorce.index') }}"
+                                class="fw-bold text-decoration-none link-primary">
+                                Obtenir
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var title = "SAMA ETAT CIVIL";
+            var texts = [
+                "Votre guichet unique pour les demandes d'état civil, accessible partout.",
+                "Support 24/7 pour une assistance rapide et efficace.",
+                "Des solutions innovantes pour simplifier vos démarches administratives."
+            ];
+            var textIndex = 0;
+            var charIndex = 0;
+
+            function typeWriterText() {
+                var typingText = setInterval(function() {
+                    if (charIndex < texts[textIndex].length) {
+                        $('#typing-text').text($('#typing-text').text() + texts[textIndex].charAt(
+                            charIndex));
+                        charIndex++;
+                    } else {
+                        clearInterval(typingText);
+                        setTimeout(function() {
+                            eraseText();
+                        }, 1000);
+                    }
+                }, 50);
+            }
+
+            function eraseText() {
+                var erasingText = setInterval(function() {
+                    var currentText = $('#typing-text').text();
+                    if (currentText.length > 0) {
+                        $('#typing-text').text(currentText.slice(0, -1));
+                    } else {
+                        clearInterval(erasingText);
+                        textIndex++;
+                        if (textIndex >= texts.length) {
+                            textIndex = 0;
+                        }
+                        charIndex = 0;
+                        typeWriterText();
+                    }
+                }, 50);
+            }
+
+            typeWriterText();
+        });
+    </script>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 " id="exampleModalLabel">Suivre ma demande</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Suivre ma demande</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body ">
+                <div class="modal-body">
                     <p class="text-secondary text-center">Sélectionner un guichet et entrer le code suivi pour voir si
                         votre
-                        document est prêt ou a été rejeté.
-                    </p>
+                        document est prêt ou a été rejeté.</p>
 
                     <form method="POST" action="{{ route('suivi-demande') }}">
                         @csrf
                         <div class="mb-3">
-                            <label for="guichet" class="col-form-label">Guichet</label>
-                            <select name="guichet" id="guichet" class="form-control">
+                            <label for="guichet" class="form-label">Guichet</label>
+                            <select name="guichet" id="guichet" class="form-select">
                                 <option value="" disabled selected style="color: #17a589;">--Sélectionnez un
                                     guichet--
                                 </option>
@@ -180,13 +346,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="code_suivi" class="col-form-label">Votre code suivi</label>
+                            <label for="code_suivi" class="form-label">Votre code suivi</label>
                             <input type="text" name="code_suivi" class="form-control" id="code_suivi">
                             @error('code_suivi')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Vérifier</button>

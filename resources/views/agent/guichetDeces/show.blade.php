@@ -112,9 +112,10 @@
                                 <form action="{{ route('agent.deces_valide', $guichetDeces->id) }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <label for="fichiers" class="block text-sm font-medium text-gray-700 mb-2">Possibilité d'importer plusieurs fichiers traités ici (Appuyez sur Ctrl pour sélectionner plusieurs fichiers)</label>
-                                    <input type="file" name="fichiers[]" id="fichiers" multiple
-                                        class="form-control">
+                                    <label for="fichiers" class="block text-sm font-medium text-gray-700 mb-2">Possibilité
+                                        d'importer plusieurs fichiers traités ici (Appuyez sur Ctrl pour sélectionner
+                                        plusieurs fichiers)</label>
+                                    <input type="file" name="fichiers[]" id="fichiers" multiple class="form-control">
                                     <button type="submit" class="btn btn-primary mt-4">Envoyer</button>
                                 </form>
 
@@ -128,6 +129,18 @@
                                 </ul>
                             </div>
                         </div>
+
+                        <div id="commentForm" style="display: none;">
+                            <form action="{{ route('agent.deces_rejete', $guichetDeces->id) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="motif">Motif du rejet :</label>
+                                    <textarea class="form-control" id="motif" name="motif" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -154,32 +167,23 @@
         </div>
     </div>
 
-    <style>
-        .remove-file-btn {
-            font-size: 1.5rem;
-            /* Taille de la police */
-            cursor: pointer;
-            /* Curseur indiquant que c'est interactif */
-            transition: transform 0.2s;
-            /* Animation de transition */
-        }
-
-        .remove-file-btn:hover {
-            transform: scale(1.2);
-            /* Effet d'agrandissement au survol */
-        }
-    </style>
-
-
     <script>
         document.getElementById('rejeterBtn').addEventListener('click', function(e) {
             e.preventDefault(); // Empêche le lien de suivre
-            document.getElementById('commentForm').style.display = 'block';
+
+            var commentForm = document.getElementById('commentForm');
+            commentForm.style.display = (commentForm.style.display === 'none') ? 'block' : 'none';
+
+            // Ferme le champ des fichiers s'il est ouvert
+            document.getElementById('uploadFilesForm').style.display = 'none';
         });
 
         document.getElementById('validerBtn').addEventListener('click', function(e) {
             e.preventDefault(); // Empêche le lien de suivre
             toggleUploadFilesForm();
+
+            // Ferme le champ de motif s'il est ouvert
+            document.getElementById('commentForm').style.display = 'none';
         });
 
         function toggleUploadFilesForm() {
@@ -205,7 +209,9 @@
                 span.className = 'badge bg-danger rounded-pill remove-file-btn';
                 span.textContent = 'x';
                 span.style.cursor = 'pointer';
-                span.addEventListener('click', removeFile.bind(null, file));
+                span.addEventListener('click', function() {
+                    removeFile(file);
+                });
 
                 li.appendChild(span);
                 filesList.appendChild(li);
@@ -236,7 +242,9 @@
                 span.className = 'badge bg-danger rounded-pill remove-file-btn';
                 span.textContent = 'x';
                 span.style.cursor = 'pointer';
-                span.addEventListener('click', removeFile.bind(null, f));
+                span.addEventListener('click', function() {
+                    removeFile(f);
+                });
 
                 li.appendChild(span);
                 filesList.appendChild(li);
