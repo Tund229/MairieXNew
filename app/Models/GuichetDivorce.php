@@ -15,7 +15,7 @@ class GuichetDivorce extends Model
         'telephone',
         'nombre_copies',
         'state',
-        'fichier_joint', 
+        'fichiers_joints',
         'code',
         'infos_demande',
         'date_validation_rejet',
@@ -23,20 +23,6 @@ class GuichetDivorce extends Model
     ];
 
 
-    // public function region()
-    // {
-    //     return $this->belongsTo(Region::class, 'region_id');
-    // }
-
-    // public function mairie()
-    // {
-    //     return $this->belongsTo(Mairie::class, 'mairie_id');
-    // }
-
-    // public function departement()
-    // {
-    //     return $this->belongsTo(Departement::class, 'departement_id');
-    // }
 
 
     public function agent(){

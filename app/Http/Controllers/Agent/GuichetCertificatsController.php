@@ -19,23 +19,21 @@ class GuichetCertificatsController extends Controller
     public function index()
     {
         $title = "Guichet Certificats";
-        $agent_mairie = Auth::user()->mairie_id;
-        $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
+        $demandeEnCours = $this->countGuichetAgent('en_traitement');
         $guichetCertificats = GuichetCertificat::orderBy('state', 'asc')
-            ->where('mairie_id', $agent_mairie)
             ->orderBy('created_at', 'desc')
             ->get();
         return view('agent.guichetCertificats.index', compact('title', 'guichetCertificats', 'demandeEnCours'));
     }
 
-    private function countGuichetAgent(String $state, int $mairie_id)
+    private function countGuichetAgent(String $state)
     {
 
-        $guichetNaissanceCount = GuichetNaissance::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetDecesCount = GuichetDeces::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetMariageCount = GuichetMariage::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetCertificatCount = GuichetCertificat::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetDivorceCount = GuichetDivorce::where('state', $state)->where('mairie_id', $mairie_id)->count();
+        $guichetNaissanceCount = GuichetNaissance::where('state', $state)->count();
+        $guichetDecesCount = GuichetDeces::where('state', $state)->count();
+        $guichetMariageCount = GuichetMariage::where('state', $state)->count();
+        $guichetCertificatCount = GuichetCertificat::where('state', $state)->count();
+        $guichetDivorceCount = GuichetDivorce::where('state', $state)->count();
         $total = $guichetNaissanceCount + $guichetDecesCount + $guichetMariageCount + $guichetCertificatCount + $guichetDivorceCount;
         return $total;
     }
@@ -62,10 +60,11 @@ class GuichetCertificatsController extends Controller
     public function show(string $id)
     {
         $title = "Guichet Certificats";
-        $agent_mairie = Auth::user()->mairie_id;
-        $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
-        $guichetCertificat = GuichetCertificat::where('id', $id)->first();
-        return view('agent.guichetCertificats.show', compact('title', 'guichetCertificat', 'demandeEnCours'));
+        $demandeEnCours = $this->countGuichetAgent('en_traitement');
+        $guichetCertificat = GuichetCertificat::findOrFail($id);
+        $fichiers = json_decode($guichetCertificat->fichiers_joints, true) ?? [];
+
+        return view('agent.guichetCertificats.show', compact('title', 'guichetCertificat', 'demandeEnCours', 'fichiers'));
     }
 
     /**
@@ -95,7 +94,7 @@ class GuichetCertificatsController extends Controller
     public function valide($id, Request $request)
     {
         $guichetCertificat = GuichetCertificat::find($id);
-        $agent_id = Auth::user()->id;
+        $agent_id = Auth::id();
 
         if (!$guichetCertificat) {
             $message = "Une erreur s'est produite!";
@@ -103,22 +102,29 @@ class GuichetCertificatsController extends Controller
             return redirect()->back();
         }
 
-        // Vérifie s'il y a des fichiers téléchargés
+        // Vérification et traitement des fichiers joints s'ils sont téléchargés
         if ($request->hasFile('fichiers')) {
+            $customMessages = [
+                'file' => 'Ce champ doit être un fichier.',
+                'mimes' => 'Le fichier doit être de type :values.',
+                'max' => 'Le fichier ne doit pas dépasser :max kilo-octets.',
+            ];
+
+            $request->validate([
+                'fichiers.*' => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
+            ], $customMessages);
+
             $filePaths = [];
-
-            // Boucle à travers chaque fichier téléchargé
             foreach ($request->file('fichiers') as $file) {
-                // Enregistre le fichier dans le stockage (par exemple, dans le dossier 'public')
-                $filePath = $file->store('public');
+                $extension = $file->getClientOriginalExtension();
+                $nomFichier = 'SN-' . uniqid() . '-' . $guichetCertificat->code . '.' . $extension;
+                $filePath = $file->storeAs( $nomFichier);
 
-                // Ajoute le chemin d'accès du fichier à la liste
                 $filePaths[] = $filePath;
             }
 
-            // Met à jour le champ 'fichier_joint' avec les chemins d'accès des fichiers en JSON
             $guichetCertificat->update([
-                'fichier_joint' => json_encode($filePaths),
+                'fichiers_joints' => json_encode($filePaths),
                 'state' => 'terminé',
                 'date_validation_rejet' => now(),
                 'agent_id' => $agent_id,

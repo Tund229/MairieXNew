@@ -20,7 +20,7 @@ class GuichetMariage extends Model
         'numero_registre_bulletin',
         'state',
         'code',
-        'fichier_joint', 
+        'fichiers_joints',
         'infos_demande',
         'fichier',
         'date_validation_rejet',

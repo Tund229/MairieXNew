@@ -15,7 +15,7 @@ class GuichetDeces extends Model
         'numero_acte_deces',
         'annee_deces',
         'fichier',
-        'fichiers_joints', // Ajout du champ fichier_joint au fillable
+        'fichiers_joints', 
         'code',
         'state',
         'telephone',

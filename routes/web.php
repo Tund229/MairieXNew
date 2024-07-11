@@ -96,8 +96,8 @@ Route::namespace('App\\Http\\Controllers\\Agent')->prefix('agent')->name('agent.
         'guichet-divorce' => "GuichetDivorceController",
     ]);
     //guichet certificat
-    Route::get('guichet-certificats/valide/{id}', 'GuichetCertificatsController@valide')->name('valide');
-    Route::get('guichet-certificats/rejete/{id}', 'GuichetCertificatsController@rejete')->name('rejete');
+    Route::post('guichet-certificats/valide/{id}', 'GuichetCertificatsController@valide')->name('valide');
+    Route::post('guichet-certificats/rejete/{id}', 'GuichetCertificatsController@rejete')->name('rejete');
 
     //guichet naissance
     Route::post('guichet-naissance/valide/{id}', 'GuichetNaissanceController@valide')->name('naissance_valide');

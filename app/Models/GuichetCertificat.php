@@ -15,7 +15,7 @@ class GuichetCertificat extends Model
         'telephone',
         'nombre_copies',
         'fichier',
-        'fichier_joint', // Ajout du champ fichier_joint au fillable
+        'fichiers_joints',
         'state',
         'code',
         'infos_demande',
