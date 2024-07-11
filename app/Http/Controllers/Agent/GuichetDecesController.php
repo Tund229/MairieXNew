@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Agent;
 
+use App\Http\Controllers\Controller;
+use App\Models\GuichetCertificat;
 use App\Models\GuichetDeces;
-use Illuminate\Http\Request;
 use App\Models\GuichetDivorce;
 use App\Models\GuichetMariage;
 use App\Models\GuichetNaissance;
-use App\Models\GuichetCertificat;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GuichetDecesController extends Controller
@@ -21,8 +21,8 @@ class GuichetDecesController extends Controller
         $title = "Guichet Décès";
         $demandeEnCours = $this->countGuichetAgent('en_traitement');
         $guichetDeces = GuichetDeces::orderBy('state', 'asc')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('agent.guichetDeces.index', compact('title', 'guichetDeces', 'demandeEnCours'));
     }
 
@@ -49,8 +49,11 @@ class GuichetDecesController extends Controller
     {
         $title = "Guichet Décès";
         $demandeEnCours = $this->countGuichetAgent('en_traitement');
-        $guichetDeces = GuichetDeces::where('id', $id)->first();
-        return view('agent.guichetDeces.show', compact('title', 'guichetDeces', 'demandeEnCours'));
+
+        $guichetDeces = GuichetDeces::findOrFail($id);
+
+        $fichiers = json_decode($guichetDeces->fichiers_joints, true) ?? [];
+        return view('agent.guichetDeces.show', compact('title', 'guichetDeces', 'demandeEnCours', 'fichiers'));
     }
 
     /**
@@ -77,55 +80,52 @@ class GuichetDecesController extends Controller
         //
     }
 
-
-
     public function valide($id, Request $request)
     {
-        $guichetDeces = GuichetDeces::find($id);
-        $agent_id = Auth::user()->id;
+        $guichetDeces = GuichetDeces::findOrFail($id);
+        $agent_id = Auth::id();
 
-        if (!$guichetDeces) {
-            $message = "Une erreur s'est produite!";
-            session()->flash('error_message', $message);
-            return redirect()->back();
-        }
-
-        // Vérifie s'il y a des fichiers téléchargés
+        // Validation des fichiers s'ils sont présents
         if ($request->hasFile('fichiers')) {
+            $customMessages = [
+                'file' => 'Ce champ doit être un fichier.',
+                'mimes' => 'Le fichier doit être de type :values.',
+                'max' => 'Le fichier ne doit pas dépasser :max kilo-octets.',
+            ];
+
+            $request->validate([
+                'fichiers.*' => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
+            ], $customMessages);
+
             $filePaths = [];
-
-            // Boucle à travers chaque fichier téléchargé
             foreach ($request->file('fichiers') as $file) {
-                // Enregistre le fichier dans le stockage (par exemple, dans le dossier 'public')
-                $filePath = $file->store('public');
+                $extension = $file->getClientOriginalExtension();
+                $nomFichier = 'SN-' . uniqid() . '-' . $guichetDeces->code . '.' . $extension;
+                $filePath = $file->storeAs('chemin/vers/stockage', $nomFichier); // Assurez-vous de spécifier le chemin de stockage correct ici
 
-                // Ajoute le chemin d'accès du fichier à la liste
                 $filePaths[] = $filePath;
             }
 
-            // Met à jour le champ 'fichier_joint' avec les chemins d'accès des fichiers en JSON
             $guichetDeces->update([
                 'fichiers_joints' => json_encode($filePaths),
                 'state' => 'terminé',
                 'date_validation_rejet' => now(),
                 'agent_id' => $agent_id,
             ]);
-
-            // Message de succès
-            $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetDeces->code;
-            session()->flash('success_message', $message);
         } else {
-            // Message d'erreur si aucun fichier n'est téléchargé
-            $message = "Aucun fichier n'a été téléchargé.";
-            session()->flash('error_message', $message);
+            // Si aucun fichier n'est téléchargé, seulement mettre à jour l'état
+            $guichetDeces->update([
+                'state' => 'terminé',
+                'date_validation_rejet' => now(),
+                'agent_id' => $agent_id,
+            ]);
         }
 
-        return redirect()->back();
+        $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetDeces->code;
+        return redirect()->back()->with('success_message', $message);
     }
 
-
-
-    public function rejete(Request $request,$id)
+    public function rejete(Request $request, $id)
     {
 
         $customMessages = [
@@ -148,7 +148,7 @@ class GuichetDecesController extends Controller
             'state' => 'rejeté',
             'date_validation_rejet' => now(),
             'agent_id' => $agent_id,
-            'motif' => $data['motif']
+            'motif' => $data['motif'],
         ]);
 
         $message = 'La demande a été rejetée. Le code de suivi est ' . $guichetDeces->code;
@@ -156,8 +156,6 @@ class GuichetDecesController extends Controller
 
         return redirect()->back();
     }
-
-
 
     private function countGuichetAgent(String $state)
     {

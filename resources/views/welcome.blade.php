@@ -271,7 +271,7 @@
         $(document).ready(function() {
             var title = "SAMA ETAT CIVIL";
             var texts = [
-                "Votre guichet unique pour les demandes d'état civil, accessible partout.",
+                "Votre plateforme pour les demandes d'état civil, accessible partout.",
                 "Support 24/7 pour une assistance rapide et efficace.",
                 "Des solutions innovantes pour simplifier vos démarches administratives."
             ];
@@ -315,25 +315,24 @@
     </script>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Suivre ma demande</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Suivre ma demande</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-secondary text-center">Sélectionner un guichet et entrer le code suivi pour voir si
-                        votre
-                        document est prêt ou a été rejeté.</p>
+                    <p class="text-muted text-center mb-4">Sélectionnez un guichet et entrez le code de suivi pour vérifier
+                        l'état de votre document.</p>
 
                     <form method="POST" action="{{ route('suivi-demande') }}">
                         @csrf
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="guichet" class="form-label">Guichet</label>
-                            <select name="guichet" id="guichet" class="form-select">
-                                <option value="" disabled selected style="color: #17a589;">--Sélectionnez un
-                                    guichet--
-                                </option>
+                            <select name="guichet" id="guichet"
+                                class="form-select @error('guichet') is-invalid @enderror">
+                                <option value="" disabled selected>Sélectionnez un guichet</option>
                                 <option value="naissance">Guichet Naissance</option>
                                 <option value="deces">Guichet Décès</option>
                                 <option value="certificat">Guichet Certificat</option>
@@ -341,25 +340,25 @@
                                 <option value="divorce">Guichet Divorce</option>
                             </select>
                             @error('guichet')
-                                <span class="text-danger">{{ $message }}</span>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label for="code_suivi" class="form-label">Votre code suivi</label>
-                            <input type="text" name="code_suivi" class="form-control" id="code_suivi">
+                        <div class="mb-4">
+                            <label for="code_suivi" class="form-label">Code de suivi</label>
+                            <input type="text" name="code_suivi"
+                                class="form-control @error('code_suivi') is-invalid @enderror" id="code_suivi"
+                                placeholder="Entrez votre code de suivi">
                             @error('code_suivi')
-                                <span class="text-danger">{{ $message }}</span>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Vérifier</button>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Vérifier l'état de ma demande</button>
                         </div>
                     </form>
-
                 </div>
-
             </div>
         </div>
     </div>

@@ -1,115 +1,80 @@
 @extends('layouts.app')
 
-
 @section('content')
-    @if (isset($guichetData))
-        <style>
-            body {
-                letter-spacing: 0.7px;
-                background-color: #eee;
-            }
 
-            .card-1 {
-                box-shadow: 2px 2px 12px 0px #17a589;
-            }
+    <section class="container my-5">
 
-            p {
-                font-size: 13px;
-            }
-
-            .small {
-                font-size: 9px !important;
-            }
-        </style>
-
-        <section class="container d-flex justify-content-center mt-4">
-            <div>
-                <div class="card shaodw-lg  card-1 bg-primary">
-                    <div class="card-body  d-flex py-5">
-                        <div class="row no-gutters  mx-auto justify-content-start flex-sm-row flex-column">
-                            <div class="col-md-4  text-center"><img class="irc_mi img-fluid mr-0"
-                                    src="https://cdn4.iconfinder.com/data/icons/logistics-delivery-2-5/64/137-512.png"
-                                    width="150" height="150"></div>
-                            <div class="col-md-6 ">
-                                <div class="card border-0 ">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-center"><b>Etat de la demande({{$guichetData->code}})</b></h5>
-                                        <p class="card-text text-center">
-                                            @if ($guichetData->state == 'en_traitement')
-                                                <span class="badge bg-warning text-dark">En traitement</span>
-                                                <p> Veuillez patienter, votre demande est en cours de traitement.
-                                                </p>
-                                            @elseif($guichetData->state == 'rejeté')
-                                                <span class="badge bg-danger">Rejetée</span>
-                                                <p> Votre demande a été rejetée. Veuillez vérifier les informations fournies
-                                                    ou contactez un agent pour plus d'informations.
-                                                </p>
-                                                <h6 class="text-center">Motif du rejet :</h6>
-                                                <p style="color: #ff7f7f;" class="text-center">
-                                                    {{$guichetData->motif}}
-                                                </p>
-
-
-                                                <a type="button" class="btn btn-primary">Reprendre</a>
-                                            @elseif ($guichetData->state == 'terminé')
-                                                <span class="badge bg-success">Terminé</span>
-                                                <p> Votre demande a été traitée avec succès. VEUILLEZ VENIR LE RECUPERE.
-                                                </p>
-                                            @endif
-
-                                        </p>
-                                    </div>
-
+        @if (isset($guichetData))
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">État de la demande ({{ $guichetData->code }})</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 text-center mb-3 mb-md-0">
+                            <img src="https://cdn4.iconfinder.com/data/icons/logistics-delivery-2-5/64/137-512.png"
+                                alt="Icône de livraison" class="img-fluid" style="max-width: 150px;">
+                        </div>
+                        <div class="col-md-8">
+                            @if ($guichetData->state == 'en_traitement')
+                                <div class="alert alert-warning" role="alert">
+                                    <h6 class="alert-heading">En traitement</h6>
+                                    <p class="mb-0">Veuillez patienter, votre demande est en cours de traitement.</p>
                                 </div>
-                            </div>
+                            @elseif($guichetData->state == 'rejeté')
+                                <div class="alert alert-danger" role="alert">
+                                    <h6 class="alert-heading">Demande rejetée</h6>
+                                    <p>Votre demande a été rejetée. Veuillez vérifier les informations fournies ou contactez
+                                        un agent pour plus d'informations.</p>
+                                    <hr>
+                                    <h6>Motif du rejet :</h6>
+                                    <p class="mb-0">{{ $guichetData->motif }}</p>
+                                    <a href="#" class="btn btn-primary mt-3">Reprendre</a>
+                                </div>
+                            @elseif ($guichetData->state == 'terminé')
+                                <div class="alert alert-success" role="alert">
+                                    <h6 class="alert-heading">Demande terminée</h6>
+                                    @if ($guichetData->fichiers_joints)
+                                        <p>Votre demande a été traitée avec succès. Vous pouvez télécharger les fichiers
+                                            ci-dessous.</p>
+                                        <div class="alert alert-warning mt-3" role="alert">
+                                            <small><strong>Attention :</strong> Ces fichiers contiennent des informations
+                                                sensibles. Veuillez les manipuler avec précaution.</small>
+                                        </div>
+                                        <div class="mt-3">
+                                            @foreach (json_decode($guichetData->fichiers_joints) as $fichier)
+                                                <a href="{{ route('telecharger_fichier', ['nom_fichier' => $fichier]) }}"
+                                                    class="btn btn-outline-primary btn-sm me-2 mb-2">
+                                                    <i class="bi bi-download me-1"></i>Télécharger {{ basename($fichier) }}
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p class="mb-0">Votre demande a été traitée avec succès. VEUILLEZ VENIR LA
+                                            RÉCUPÉRER.</p>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    @else
-        <style>
-            p {
-                color: #fff;
-                font-size;
-                1.1em;
-            }
-
-            .alert-heading {
-                color: #fff;
-            }
-
-            .bg-success {
-                background-color: #f0715f !important;
-            }
-
-
-
-            .btn-white {
-                color: #5e676f;
-                background-color: #fff;
-                border-color: transparent;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, .05)
-            }
-        </style>
-        <section>
-            <div class="col-12 container mt-4">
-                <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
-                    <div class="alert bg-success py-4" role="alert">
-                        <div class="">
-                            <h5 class="alert-heading text-center">Echec de la vérification!</h5>
-                            <p>Aucune demande ne semble avoir ce code. Veuillez corriger et réessayer.</p>
-                            <p>Conseils :</p>
-                            <ul>
-                                <li>Vérifiez si vous avez choisi le bon guichet.</li>
-                                <li>Revoyez votre code.</li>
-                                <li>Contactez un agent si le problème persiste.</li>
-                            </ul>
-                            <a href="{{ route('welcome') }}" class="btn btn-primary mt-3" data-abc="true">Revérifier</a>
-                        </div>
-                    </div>
-                </div>
+        @else
+            <div class="alert alert-danger" role="alert">
+                <h5 class="alert-heading">Échec de la vérification!</h5>
+                <p>Aucune demande ne semble avoir ce code. Veuillez corriger et réessayer.</p>
+                <hr>
+                <p class="mb-0">Conseils :</p>
+                <ul>
+                    <li>Vérifiez si vous avez choisi le bon guichet.</li>
+                    <li>Revoyez votre code.</li>
+                    <li>Contactez un agent si le problème persiste.</li>
+                </ul>
+                <a href="{{ route('welcome') }}" class="btn btn-primary mt-3">Revérifier</a>
             </div>
-        </section>
-    @endif
+
+        @endif
+
+    </section>
+
 @endsection

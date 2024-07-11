@@ -69,8 +69,6 @@ Route::group(['prefix' => 'guichet-certificat'], function () {
 // Admin
 Route::namespace('App\\Http\\Controllers\\Admin')->prefix('admin')->name('admin.')->middleware("is_admin")->group(function () {
     Route::resources([
-        // 'regions' => "RegionController", // gestion des regions
-        // 'departements' => "DepartementController", // gestion des départements
         'mairies' => "MairieController", // gestion des mairies
         'agents' => "AgentController", // gestion des mairies
     ]);

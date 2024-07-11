@@ -33,7 +33,6 @@ class UserSeeder extends Seeder
             'role' => "agent",
             'email' => "test@testo.com",
             'password' => Hash::make('123456789'),
-
         ]);
 
 

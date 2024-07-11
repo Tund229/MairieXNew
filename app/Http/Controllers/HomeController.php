@@ -31,7 +31,6 @@ class HomeController extends Controller
 
     public function telechargerFichier($nom_fichier)
     {
-
         $chemin = $nom_fichier;
         if (Storage::exists($chemin)) {
             $type = Storage::mimeType($chemin);
@@ -201,21 +200,6 @@ class HomeController extends Controller
     }
 
 
-
-    // public function getDepartementByRegion(Request $request, $regionId)
-    // {
-    //     $departements = Departement::where('region_id', $regionId)->get();
-    //     $departementsData = $departements->pluck('name', 'id');
-    //     return response()->json($departementsData);
-    // }
-
-
-    // public function getMairieByDepartement(Request $request, $departement_id)
-    // {
-    //     $mairies = Mairie::where('departement_id', $departement_id)->get();
-    //     $mairiesData = $mairies->pluck('name', 'id');
-    //     return response()->json($mairiesData);
-    // }
 
 
     public function restore_account(Request $request)

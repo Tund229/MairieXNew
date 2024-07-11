@@ -11,13 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Google fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
-        rel="stylesheet" /> --}}
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&amp;display=swap"
         rel="stylesheet" />
 
@@ -34,6 +27,7 @@
         .footer-text {
             margin-bottom: 10px;
         }
+
         .slick-slide {
             margin: 0 20px;
         }
@@ -63,6 +57,22 @@
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white" href="#about">A propos</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white" href="#services">Services</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white" href="#faq">FAQ</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle me-lg-3 text-white" href="#"
+                            id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Faire une demande
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{{ route('guichet-naissance.index') }}">Guichet Naissance</a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-certificats.index') }}">Guichet Certifiats </a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-deces.index') }}">Guichet Décès</a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-divorce.index') }}">Guichet Divorce
+                                </a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-mariage.index') }}">Guichet Mariage
+                                </a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link me-lg-3 text-white"
                             href="{{ route('login') }}">Connexion</a></li>
                 </ul>
@@ -126,7 +136,8 @@
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                 data-bs-parent="#faqAccordion1">
                                 <div class="accordion-body">
-                                    Vous pouvez vérifier l'état de votre demande en vous connectant à votre compte sur notre
+                                    Vous pouvez vérifier l'état de votre demande en vous connectant à votre compte sur
+                                    notre
                                     site web. Une fois connecté, allez à la section "Suivi des demandes" où vous
                                     trouverez toutes les informations mises à jour concernant votre demande.
                                 </div>
@@ -137,16 +148,19 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    data-bs-target="#collapseThree" aria-expanded="false"
+                                    aria-controls="collapseThree">
                                     Comment obtenir un acte de mariage ?
                                 </button>
                             </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#faqAccordion1">
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                aria-labelledby="headingThree" data-bs-parent="#faqAccordion1">
                                 <div class="accordion-body">
                                     Pour obtenir un acte de mariage, vous devez fournir une copie de votre certificat de
-                                    mariage ou tout autre document prouvant le mariage. Remplissez le formulaire de demande
-                                    disponible sur notre site web et suivez les instructions pour soumettre votre demande.
+                                    mariage ou tout autre document prouvant le mariage. Remplissez le formulaire de
+                                    demande
+                                    disponible sur notre site web et suivez les instructions pour soumettre votre
+                                    demande.
                                 </div>
                             </div>
                         </div>
@@ -160,7 +174,8 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    data-bs-target="#collapseFour" aria-expanded="false"
+                                    aria-controls="collapseFour">
                                     Combien de temps prend le traitement d'une demande ?
                                 </button>
                             </h2>
@@ -179,7 +194,8 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFive">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    data-bs-target="#collapseFive" aria-expanded="false"
+                                    aria-controls="collapseFive">
                                     Quels documents sont nécessaires pour demander un certificat de résidence ?
                                 </button>
                             </h2>
@@ -204,7 +220,8 @@
                             <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
                                 data-bs-parent="#faqAccordion2">
                                 <div class="accordion-body">
-                                    Vous pouvez télécharger le formulaire de demande directement depuis notre site web, dans
+                                    Vous pouvez télécharger le formulaire de demande directement depuis notre site web,
+                                    dans
                                     la section dédiée aux formulaires. Assurez-vous de remplir toutes les sections
                                     requises avant de soumettre votre demande.
                                 </div>
@@ -215,12 +232,13 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingSeven">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    data-bs-target="#collapseSeven" aria-expanded="false"
+                                    aria-controls="collapseSeven">
                                     Comment modifier une demande déjà soumise ?
                                 </button>
                             </h2>
-                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                                data-bs-parent="#faqAccordion2">
+                            <div id="collapseSeven" class="accordion-collapse collapse"
+                                aria-labelledby="headingSeven" data-bs-parent="#faqAccordion2">
                                 <div class="accordion-body">
                                     Pour modifier une demande déjà soumise, veuillez contacter notre service clientèle
                                     directement. Nous vous guiderons sur la procédure à suivre pour mettre à jour votre
@@ -233,15 +251,17 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingEight">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                    data-bs-target="#collapseEight" aria-expanded="false"
+                                    aria-controls="collapseEight">
                                     Quelle est la durée de validité des certificats délivrés ?
                                 </button>
                             </h2>
-                            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
-                                data-bs-parent="#faqAccordion2">
+                            <div id="collapseEight" class="accordion-collapse collapse"
+                                aria-labelledby="headingEight" data-bs-parent="#faqAccordion2">
                                 <div class="accordion-body">
                                     La durée de validité des certificats délivrés peut varier en fonction du type de
-                                    document. Veuillez vérifier sur le certificat lui-même ou sur notre site web pour les
+                                    document. Veuillez vérifier sur le certificat lui-même ou sur notre site web pour
+                                    les
                                     détails spécifiques sur la validité de chaque type de certificat.
                                 </div>
                             </div>
@@ -287,7 +307,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-white small footer-text">
-                        <div class="mb-2">&copy; <span id="currentYear"></span> SAMA ETAT CIVIL. Tous droits réservés.</div>
+                        <div class="mb-2">&copy; <span id="currentYear"></span> SAMA ETAT CIVIL. Tous droits
+                            réservés.</div>
                         <p class="text-white">SAMA ETAT CIVIL, le guichet état CIVIL virtuel.</p>
                     </div>
                 </div>
