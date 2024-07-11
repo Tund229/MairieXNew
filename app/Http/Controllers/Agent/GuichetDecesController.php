@@ -101,7 +101,7 @@ class GuichetDecesController extends Controller
             foreach ($request->file('fichiers') as $file) {
                 $extension = $file->getClientOriginalExtension();
                 $nomFichier = 'SN-' . uniqid() . '-' . $guichetDeces->code . '.' . $extension;
-                $filePath = $file->storeAs('chemin/vers/stockage', $nomFichier); // Assurez-vous de spécifier le chemin de stockage correct ici
+                $filePath = $file->storeAs($nomFichier);
 
                 $filePaths[] = $filePath;
             }

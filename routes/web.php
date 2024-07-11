@@ -100,8 +100,8 @@ Route::namespace('App\\Http\\Controllers\\Agent')->prefix('agent')->name('agent.
     Route::get('guichet-certificats/rejete/{id}', 'GuichetCertificatsController@rejete')->name('rejete');
 
     //guichet naissance
-    Route::get('guichet-naissance/valide/{id}', 'GuichetNaissanceController@valide')->name('naissance_valide');
-    Route::get('guichet-naissance/rejete/{id}', 'GuichetNaissanceController@rejete')->name('naissance_rejete');
+    Route::post('guichet-naissance/valide/{id}', 'GuichetNaissanceController@valide')->name('naissance_valide');
+    Route::post('guichet-naissance/rejete/{id}', 'GuichetNaissanceController@rejete')->name('naissance_rejete');
 
     //guichet décès
     Route::post('guichet-deces/valide/{id}', 'GuichetDecesController@valide')->name('deces_valide');

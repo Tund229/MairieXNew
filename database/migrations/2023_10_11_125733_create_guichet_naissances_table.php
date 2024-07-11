@@ -26,7 +26,7 @@ return new class () extends Migration {
             $table->json('infos_demande')->nullable();
             $table->string('code')->nullable();
             $table->enum('state', ['en_traitement', 'rejeté', 'terminé'])->default('en_traitement');
-            $table->string('fichier_joint')->nullable(); // Nouvelle colonne pour le fichier joint
+            $table->string('fichiers_joints')->nullable(); // Nouvelle colonne pour le fichier joint
             $table->timestamps();
             $table->timestamp('date_validation_rejet')->nullable();
             $table->text('motif')->nullable();

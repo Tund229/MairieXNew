@@ -29,7 +29,7 @@
                                     <hr>
                                     <h6>Motif du rejet :</h6>
                                     <p class="mb-0">{{ $guichetData->motif }}</p>
-                                    <a href="#" class="btn btn-primary mt-3">Reprendre</a>
+                                    <a href="{{route('welcome')}}" class="btn btn-primary mt-3">Reprendre</a>
                                 </div>
                             @elseif ($guichetData->state == 'terminé')
                                 <div class="alert alert-success" role="alert">

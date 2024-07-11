@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->json('infos_demande')->nullable();
             $table->string('fichier')->nullable();
-            $table->json('fichier_joint')->nullable(); // Colonnes pour les fichiers joints en JSON
+            $table->json('fichiers_joints')->nullable(); // Colonnes pour les fichiers joints en JSON
             $table->timestamps();
             $table->timestamp('date_validation_rejet')->nullable();
             $table->text('motif')->nullable();

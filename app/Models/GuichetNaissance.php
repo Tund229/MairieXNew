@@ -22,7 +22,7 @@ class GuichetNaissance extends Model
         'annee_registre',
         'numero_acte_naissance',
         'state',
-        'fichier_joint', 
+        'fichiers_joints',
         'code',
         'infos_demande',
         'date_validation_rejet',
