@@ -100,9 +100,9 @@
     }
 
     strong {
-        color: #17a589; 
+        color: #17a589;
     }
-        
+
     </style>
 </head>
 
@@ -113,14 +113,14 @@
         </div>
         <div class="content" style="text-align: center">
             <h1>Nouvel utilisateur enregistré</h1>
-            <p>Votre compte a été créé avec succès sur MairiSn.</p>
+            <p>Votre compte a été créé avec succès sur SAMA ETAT CIVIL.</p>
             <p>Voici vos informations de connexion :</p>
             <ul>
                 <li><strong>Nom d'utilisateur :</strong> {{ $user->name }}</li>
                 <li><strong>Mairie :</strong> {{ $user->mairies->name }}</li>
-                
+
                 <li><strong>Adresse e-mail :</strong> {{ $user->email }}</li>
-                <li><strong>Mot de passe temporaire :</strong> MairiSnAgentPassword</li>
+                <li><strong>Mot de passe temporaire :</strong> SAMA ETAT CIVILAgentPassword</li>
             </ul>
             <p>Vous pouvez utiliser ces informations pour vous connecter à votre compte.</p>
             <p>Si vous souhaitez changer votre mot de passe, vous pouvez le faire après vous être connecté.</p>
@@ -130,7 +130,7 @@
                 répondre.</p>
         </div>
     </div>
-    
+
 </body>
 
 </html>
