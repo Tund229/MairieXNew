@@ -138,7 +138,7 @@
 
                         <ul class="nav-right">
                             @if (Auth::user()->role == "agent")
-                                
+
                             <li class="header-notification">
                                 <a href="#!">
                                     <i class="ti-bell"></i>
@@ -151,7 +151,7 @@
                                     </li>
                                     <li>
                                         <div class="media">
-                                            
+
                                             <div class="media-body">
                                                 <p class="notification-msg">Vous avez {{$demandeEnCours}} nouvelles demandes en attente de traitement</p>
                                             </div>
@@ -171,13 +171,13 @@
                                 <ul class="show-notification profile-notification">
                                     <li>
                                         <a href="#">
-                                            <i class="ti-user"></i> 
+                                            <i class="ti-user"></i>
                                            {{ Auth::user()->mairies->name ?? "Aucune mairie"}}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{route('profile')}}">
-                                            <i class="ti-user"></i> 
+                                            <i class="ti-user"></i>
                                             Profile
                                             @if ( Auth::user()->role == "agent")
                                                 (Agent)
@@ -220,19 +220,6 @@
                                         </a>
                                     </li>
 
-                                    <li class="{{ $title === 'Régions' ? 'active' : '' }}">
-                                        <a href="{{ route('admin.regions.index') }}">
-                                            <span class="pcoded-micon"><i class="ti-map-alt"></i></span>
-                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Régions</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="{{ $title === 'Départements' ? 'active' : '' }}">
-                                        <a href="{{ route('admin.departements.index') }}">
-                                            <span class="pcoded-micon"><i class="ti-flag"></i></span>
-                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Départements</span>
-                                        </a>
-                                    </li>
 
 
                                     <li class="{{ $title === 'Mairies' ? 'active' : '' }}">
@@ -272,7 +259,7 @@
                                             </span>
                                         </a>
                                     </li>
-                                    
+
                                 </ul>
 
                             </div>
@@ -315,7 +302,7 @@
                                         </a>
                                     </li>
 
-                                    
+
                                     <li class="{{ $title === 'Guichet Divorce' ? 'active' : '' }}">
                                         <a href="{{ route('agent.guichet-divorce.index') }}">
                                             <span class="pcoded-micon"><i class="ti-files"></i></span>
@@ -333,7 +320,7 @@
                                     </li>
 
                                     <li class="">
-                                        <a href="{{ route('agent.delete_all_guichets', Auth::user()->mairie_id) }}">
+                                        <a href="{{ route('agent.delete_all_guichets') }}">
                                             <span class="pcoded-micon"><i class="ti-trash"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.form-components.main">
                                               Supprimer données
@@ -387,6 +374,7 @@
     <script src="{{ asset('dash/assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+
     <script>
         $('#dataTable' ).DataTable({
             "paging": true,
@@ -419,7 +407,7 @@
             }
         });
 
-        
+
     </script>
 
 

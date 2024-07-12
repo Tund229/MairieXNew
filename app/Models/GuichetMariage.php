@@ -12,6 +12,7 @@ class GuichetMariage extends Model
     protected $fillable = [
         'prenom_epoux',
         'nom_epoux',
+        'agent_id',
         'prenom_epouse',
         'nom_epouse',
         'telephone',

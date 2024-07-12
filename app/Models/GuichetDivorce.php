@@ -15,6 +15,7 @@ class GuichetDivorce extends Model
         'telephone',
         'nombre_copies',
         'state',
+        'agent_id',
         'fichiers_joints',
         'code',
         'infos_demande',

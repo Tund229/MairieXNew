@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Mairie;
-use App\Models\ResetAgent;
-use App\Models\Departement;
+use App\Models\GuichetCertificat;
 use App\Models\GuichetDeces;
-use Illuminate\Http\Request;
 use App\Models\GuichetDivorce;
 use App\Models\GuichetMariage;
 use App\Models\GuichetNaissance;
-use App\Models\GuichetResidence;
-use App\Models\GuichetCertificat;
+use App\Models\ResetAgent;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -36,25 +34,58 @@ class HomeController extends Controller
             $type = Storage::mimeType($chemin);
             return response()->file(storage_path('app/' . $chemin), [
                 'Content-Type' => $type,
-                'Content-Disposition' => 'attachment; filename="' . basename($chemin) . '"'
+                'Content-Disposition' => 'attachment; filename="' . basename($chemin) . '"',
             ]);
         } else {
             return response('Fichier non trouvé', 404);
         }
     }
 
-
-
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = Auth::user();
         $title = "Tableau de bord";
-        if ($user->role == "admin") {
+
+        if ($user->role == "agent") {
+            // Exemple de récupération des données pour les graphiques
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+
+            // Graphique par jour
+            $dailyData = $this->getDailyData($startDate, $endDate);
+
+            // Graphique par mois
+            $monthlyData = $this->getMonthlyData();
+
+            // Graphique par année
+            $yearlyData = $this->getYearlyData();
+
+            $demandeEnCours = $this->countGuichet('en_traitement');
+            $demandeTerminee = $this->countGuichet('terminé');
+            $demandeRejetee = $this->countGuichet('rejeté');
+            $naissance = GuichetNaissance::all();
+            $deces = GuichetDeces::all();
+            $certificat = GuichetCertificat::all();
+            $mariage = GuichetMariage::all();
+            $divorce = GuichetDivorce::all();
+
+            return view('home', compact('title', 'demandeEnCours', 'demandeTerminee', 'demandeRejetee', 'naissance', 'deces', 'certificat', 'mariage', 'divorce', 'dailyData', 'monthlyData', 'yearlyData'));
+        } elseif ($user->role == "admin") {
             $agent = User::where('state', true)->where('role', 'agent')->count();
+
+            // Exemple de récupération des données pour les graphiques
+            $startDate = Carbon::now()->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+
+            // Graphique par jour
+            $dailyData = $this->getDailyData($startDate, $endDate);
+
+            // Graphique par mois
+            $monthlyData = $this->getMonthlyData();
+
+            // Graphique par année
+            $yearlyData = $this->getYearlyData();
+
             $demandeEnCours = $this->countGuichet('en_traitement');
             $demandeTerminee = $this->countGuichet('terminé');
             $demandeRejetee = $this->countGuichet('rejeté');
@@ -63,24 +94,301 @@ class HomeController extends Controller
             $certificat = GuichetCertificat::all();
             $mariage = GuichetMariage::all();
             $divorce = GuichetDivorce::all();
-            return view('home', compact('title', 'demandeEnCours', 'demandeTerminee', 'demandeRejetee', 'agent', 'naissance', 'deces', 'certificat', 'mariage', 'divorce'));
-         }
-         elseif($user->role == "agent") {
-            $demandeEnCours = $this->countGuichet('en_traitement');
-            $demandeTerminee = $this->countGuichet('terminé');
-            $demandeRejetee = $this->countGuichet('rejeté');
-            $naissance = GuichetNaissance::all();
-            $deces = GuichetDeces::all();
-            $certificat = GuichetCertificat::all();
-            $mariage = GuichetMariage::all();
-            $divorce = GuichetDivorce::all();
-            return view('home', compact('title', 'demandeEnCours', 'demandeTerminee', 'demandeRejetee', 'naissance', 'deces', 'certificat', 'mariage', 'divorce'));
+
+            return view('home', compact('title', 'agent', 'demandeEnCours', 'demandeTerminee', 'demandeRejetee', 'naissance', 'deces', 'certificat', 'mariage', 'divorce', 'dailyData', 'monthlyData', 'yearlyData'));
         }
 
-
-
+        return redirect('/'); // Redirection par défaut si aucune condition n'est remplie
     }
 
+    /**
+     * Fonction pour récupérer les données quotidiennes pour le graphique.
+     *
+     * @param \Carbon\Carbon $startDate
+     * @param \Carbon\Carbon $endDate
+     * @return array
+     */
+    private function getDailyData($startDate, $endDate)
+    {
+        // Exemple de récupération des données pour chaque guichet par jour
+        $guichetNaissanceData = GuichetNaissance::whereBetween('created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->get();
+
+        $guichetDecesData = GuichetDeces::whereBetween('created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->get();
+
+        $guichetCertificatData = GuichetCertificat::whereBetween('created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->get();
+
+        $guichetMariageData = GuichetMariage::whereBetween('created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->get();
+
+        $guichetDivorceData = GuichetDivorce::whereBetween('created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->get();
+
+        // Formater les données pour le graphique
+        $labels = [];
+        $naissanceCounts = [];
+        $decesCounts = [];
+        $certificatCounts = [];
+        $mariageCounts = [];
+        $divorceCounts = [];
+
+        foreach ($guichetNaissanceData as $data) {
+            $labels[] = Carbon::parse($data->date)->format('d M');
+            $naissanceCounts[] = $data->count;
+        }
+
+        foreach ($guichetDecesData as $data) {
+            $decesCounts[] = $data->count;
+        }
+
+        foreach ($guichetCertificatData as $data) {
+            $certificatCounts[] = $data->count;
+        }
+
+        foreach ($guichetMariageData as $data) {
+            $mariageCounts[] = $data->count;
+        }
+
+        foreach ($guichetDivorceData as $data) {
+            $divorceCounts[] = $data->count;
+        }
+
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Naissance',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderColor' => 'rgba(75, 192, 192, 1)',
+                    'data' => $naissanceCounts,
+                ],
+                [
+                    'label' => 'Décès',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                    'data' => $decesCounts,
+                ],
+                [
+                    'label' => 'Certificats',
+                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                    'borderColor' => 'rgba(54, 162, 235, 1)',
+                    'data' => $certificatCounts,
+                ],
+                [
+                    'label' => 'Mariage',
+                    'backgroundColor' => 'rgba(255, 206, 86, 0.2)',
+                    'borderColor' => 'rgba(255, 206, 86, 1)',
+                    'data' => $mariageCounts,
+                ],
+                [
+                    'label' => 'Divorce',
+                    'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                    'borderColor' => 'rgba(153, 102, 255, 1)',
+                    'data' => $divorceCounts,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Fonction pour récupérer les données mensuelles pour le graphique.
+     *
+     * @return array
+     */
+    private function getMonthlyData()
+    {
+        // Exemple de récupération des données pour chaque guichet par mois
+        $guichetNaissanceData = GuichetNaissance::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->groupBy('month')
+            ->get();
+
+        $guichetDecesData = GuichetDeces::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->groupBy('month')
+            ->get();
+
+        $guichetCertificatData = GuichetCertificat::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->groupBy('month')
+            ->get();
+
+        $guichetMariageData = GuichetMariage::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->groupBy('month')
+            ->get();
+
+        $guichetDivorceData = GuichetDivorce::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->groupBy('month')
+            ->get();
+
+        // Formater les données pour le graphique
+        $labels = [];
+        $naissanceCounts = [];
+        $decesCounts = [];
+        $certificatCounts = [];
+        $mariageCounts = [];
+        $divorceCounts = [];
+
+        foreach ($guichetNaissanceData as $data) {
+            $labels[] = Carbon::create(null, $data->month)->monthName;
+            $naissanceCounts[] = $data->count;
+        }
+
+        foreach ($guichetDecesData as $data) {
+            $decesCounts[] = $data->count;
+        }
+
+        foreach ($guichetCertificatData as $data) {
+            $certificatCounts[] = $data->count;
+        }
+
+        foreach ($guichetMariageData as $data) {
+            $mariageCounts[] = $data->count;
+        }
+
+        foreach ($guichetDivorceData as $data) {
+            $divorceCounts[] = $data->count;
+        }
+
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Naissance',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderColor' => 'rgba(75, 192, 192, 1)',
+                    'data' => $naissanceCounts,
+                ],
+                [
+                    'label' => 'Décès',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                    'data' => $decesCounts,
+                ],
+                [
+                    'label' => 'Certificats',
+                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                    'borderColor' => 'rgba(54, 162, 235, 1)',
+                    'data' => $certificatCounts,
+                ],
+                [
+                    'label' => 'Mariage',
+                    'backgroundColor' => 'rgba(255, 206, 86, 0.2)',
+                    'borderColor' => 'rgba(255, 206, 86, 1)',
+                    'data' => $mariageCounts,
+                ],
+                [
+                    'label' => 'Divorce',
+                    'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                    'borderColor' => 'rgba(153, 102, 255, 1)',
+                    'data' => $divorceCounts,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Fonction pour récupérer les données annuelles pour le graphique.
+     *
+     * @return array
+     */
+    private function getYearlyData()
+    {
+        // Exemple de récupération des données pour chaque guichet par année
+        $guichetNaissanceData = GuichetNaissance::selectRaw('YEAR(created_at) as year, count(*) as count')
+            ->groupBy('year')
+            ->get();
+
+        $guichetDecesData = GuichetDeces::selectRaw('YEAR(created_at) as year, count(*) as count')
+            ->groupBy('year')
+            ->get();
+
+        $guichetCertificatData = GuichetCertificat::selectRaw('YEAR(created_at) as year, count(*) as count')
+            ->groupBy('year')
+            ->get();
+
+        $guichetMariageData = GuichetMariage::selectRaw('YEAR(created_at) as year, count(*) as count')
+            ->groupBy('year')
+            ->get();
+
+        $guichetDivorceData = GuichetDivorce::selectRaw('YEAR(created_at) as year, count(*) as count')
+            ->groupBy('year')
+            ->get();
+
+        // Formater les données pour le graphique
+        $labels = [];
+        $naissanceCounts = [];
+        $decesCounts = [];
+        $certificatCounts = [];
+        $mariageCounts = [];
+        $divorceCounts = [];
+
+        foreach ($guichetNaissanceData as $data) {
+            $labels[] = $data->year;
+            $naissanceCounts[] = $data->count;
+        }
+
+        foreach ($guichetDecesData as $data) {
+            $decesCounts[] = $data->count;
+        }
+
+        foreach ($guichetCertificatData as $data) {
+            $certificatCounts[] = $data->count;
+        }
+
+        foreach ($guichetMariageData as $data) {
+            $mariageCounts[] = $data->count;
+        }
+
+        foreach ($guichetDivorceData as $data) {
+            $divorceCounts[] = $data->count;
+        }
+
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Naissance',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderColor' => 'rgba(75, 192, 192, 1)',
+                    'data' => $naissanceCounts,
+                ],
+                [
+                    'label' => 'Décès',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                    'data' => $decesCounts,
+                ],
+                [
+                    'label' => 'Certificats',
+                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                    'borderColor' => 'rgba(54, 162, 235, 1)',
+                    'data' => $certificatCounts,
+                ],
+                [
+                    'label' => 'Mariage',
+                    'backgroundColor' => 'rgba(255, 206, 86, 0.2)',
+                    'borderColor' => 'rgba(255, 206, 86, 1)',
+                    'data' => $mariageCounts,
+                ],
+                [
+                    'label' => 'Divorce',
+                    'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                    'borderColor' => 'rgba(153, 102, 255, 1)',
+                    'data' => $divorceCounts,
+                ],
+            ],
+        ];
+    }
     private function countGuichetAgent(String $state, int $mairie_id)
     {
 
@@ -152,7 +460,6 @@ class HomeController extends Controller
         //
     }
 
-
     public function suivre_demande(Request $request)
     {
         $customMessages = [
@@ -188,7 +495,7 @@ class HomeController extends Controller
             if ($guichetMariage) {
                 $guichetData = $guichetMariage;
             }
-        }elseif ($data['guichet'] == "divorce") {
+        } elseif ($data['guichet'] == "divorce") {
             $codeSuivi = $data['code_suivi'];
             $guichetDivorce = GuichetDivorce::where('code', $codeSuivi)->first();
             if ($guichetDivorce) {
@@ -198,9 +505,6 @@ class HomeController extends Controller
 
         return view('suivi-demande', compact('guichetData'));
     }
-
-
-
 
     public function restore_account(Request $request)
     {
@@ -233,7 +537,6 @@ class HomeController extends Controller
         return view('auth.passwords.restore-account');
     }
 
-
     private function validator(Request $request)
     {
         return request()->validate([
@@ -241,30 +544,30 @@ class HomeController extends Controller
                 if (empty($value)) {
                     $fail('Veuillez remplir ce champ');
                 }
-            },'string', 'email', 'max:255'],
+            }, 'string', 'email', 'max:255'],
 
         ]);
     }
 
-
-
-    public function profile(){
+    public function profile()
+    {
         $title = "Tableau de bord";
         $id = Auth::user()->id;
         $demandeEnCours = $this->countGuichet('en_traitement');
         return view('profile', compact('title', 'demandeEnCours', 'id'));
     }
 
-    public function profile_update(Request $request, $id){
+    public function profile_update(Request $request, $id)
+    {
         $customMessages = [
             'required' => 'Veuillez remplir ce champ.',
-            'confirmed'=>'Les mots de passe ne correspondent pas',
-            'min'=>'Le mot de passe doit avoir au moins 8 caractères'
+            'confirmed' => 'Les mots de passe ne correspondent pas',
+            'min' => 'Le mot de passe doit avoir au moins 8 caractères',
 
         ];
         $data = $request->validate([
             'old_password' => 'required',
-            'password' => 'required|confirmed|min:8'
+            'password' => 'required|confirmed|min:8',
         ], $customMessages);
         $user = User::find($id);
         if (!Hash::check($request->old_password, $user->password)) {
@@ -279,6 +582,5 @@ class HomeController extends Controller
         return redirect()->back();
 
     }
-
 
 }

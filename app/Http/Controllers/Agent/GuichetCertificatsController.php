@@ -118,7 +118,7 @@ class GuichetCertificatsController extends Controller
             foreach ($request->file('fichiers') as $file) {
                 $extension = $file->getClientOriginalExtension();
                 $nomFichier = 'SN-' . uniqid() . '-' . $guichetCertificat->code . '.' . $extension;
-                $filePath = $file->storeAs($nomFichier); // Assurez-vous de spécifier le chemin de stockage correct ici
+                $filePath = $file->storeAs($nomFichier);
 
                 $filePaths[] = $filePath;
             }
@@ -149,7 +149,6 @@ class GuichetCertificatsController extends Controller
 
         return redirect()->back();
     }
-
 
     public function rejete(Request $request, $id)
     {

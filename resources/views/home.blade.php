@@ -14,6 +14,8 @@
     @endif
 
 
+
+
     @if (Auth::user()->role == 'admin')
         <div class="page-body">
             <div class="row">
@@ -409,4 +411,114 @@
             </div>
         </div>
     @endif
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Graphique des demandes par jour
+                    </div>
+                    <div class="card-body">
+                        <canvas id="dailyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Graphique des demandes par mois
+                    </div>
+                    <div class="card-body">
+                        <canvas id="monthlyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Graphique des demandes par année
+                    </div>
+                    <div class="card-body">
+                        <canvas id="yearlyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        // Graphique des demandes par jour (Agent)
+        var dailyData = @json($dailyData);
+
+        var ctxDaily = document.getElementById('dailyChart').getContext('2d');
+        var dailyChart = new Chart(ctxDaily, {
+            type: 'bar',
+            data: {
+                labels: dailyData.labels,
+                datasets: dailyData.datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graphique des demandes par mois (Agent)
+        var monthlyData = @json($monthlyData);
+
+        var ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+        var monthlyChart = new Chart(ctxMonthly, {
+            type: 'line',
+            data: {
+                labels: monthlyData.labels,
+                datasets: monthlyData.datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graphique des demandes par année (Agent)
+        var yearlyData = @json($yearlyData);
+
+        var ctxYearly = document.getElementById('yearlyChart').getContext('2d');
+        var yearlyChart = new Chart(ctxYearly, {
+            type: 'bar',
+            data: {
+                labels: yearlyData.labels,
+                datasets: yearlyData.datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
 @endsection

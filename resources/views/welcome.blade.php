@@ -37,7 +37,7 @@
             <div class="row gy-4 gy-lg-0 align-items-lg-center mb-4">
                 <div class="col-12 col-lg-6">
                     <img class="img-fluid rounded" loading="lazy"
-                        src="https://emova-monceaufleurs-fr-storage.omn.proximis.com/Imagestorage/images/2560/1600/5f4754e392f8f_P1190087_copie.jpg"
+                        src="{{asset('assets/img/image_1.jpg/')}}"
                         alt="About Us" style="max-width: 70%; height: 80%;">
                 </div>
                 <div class="col-12 col-lg-6 col-xxl-6">
@@ -105,7 +105,7 @@
                     <div class="row justify-content-lg-end">
 
                         <img class="img-fluid rounded" loading="lazy"
-                            src="https://emova-monceaufleurs-fr-storage.omn.proximis.com/Imagestorage/images/2560/1600/5f4754e392f8f_P1190087_copie.jpg"
+                            src="{{asset('assets/img/image_2.jpg/')}}"
                             alt="About Us" style="max-width: 70%; height: 80%;">
                     </div>
                 </div>

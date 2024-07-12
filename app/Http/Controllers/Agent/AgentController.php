@@ -70,39 +70,39 @@ class AgentController extends Controller
     }
 
 
-    public function deleteAll($mairie_id)
+    public function deleteAll()
     {
-        
+
         try {
-            $guichetNaissances = GuichetNaissance::where('mairie_id', $mairie_id)->get();
+            $guichetNaissances = GuichetNaissance::get();
             foreach ($guichetNaissances as $guichetNaissance) {
                 $guichetNaissance->delete();
             }
 
-            $guichetDivorces = GuichetDivorce::where('mairie_id', $mairie_id)->get();
+            $guichetDivorces = GuichetDivorce::get();
             foreach ($guichetDivorces as $guichetDivorce) {
                 $guichetDivorce->delete();
             }
 
-            $guichetMariages = GuichetMariage::where('mairie_id', $mairie_id)->get();
+            $guichetMariages = GuichetMariage::get();
             foreach ($guichetMariages as $guichetMariage) {
                 Storage::delete($guichetMariage->fichier);
                 $guichetMariage->delete();
             }
 
-            $guichetCertificats = GuichetCertificat::where('mairie_id', $mairie_id)->get();
+            $guichetCertificats = GuichetCertificat::get();
             foreach ($guichetCertificats as $guichetCertificat) {
                 Storage::delete($guichetCertificat->fichier);
                 $guichetCertificat->delete();
             }
 
-            $guichetDeces = GuichetDeces::where('mairie_id', $mairie_id)->get();
+            $guichetDeces = GuichetDeces::get();
             foreach ($guichetDeces as $guichetDece) {
                 Storage::delete($guichetDece->fichier);
                 $guichetDece->delete();
             }
 
-            
+
 
             $message = "Tous les enregistrements  ont été supprimés avec succès.";
             session()->flash('success_message', $message);

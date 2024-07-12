@@ -11,6 +11,7 @@ class GuichetCertificat extends Model
     use HasFactory;
     protected $fillable = [
         'nom',
+        'agent_id',
         'prenom',
         'telephone',
         'nombre_copies',

@@ -11,11 +11,12 @@ class GuichetDeces extends Model
     protected $fillable = [
         'nom_defunt',
         'prenom_defunt',
+        'agent_id',
         'nombre_copies',
         'numero_acte_deces',
         'annee_deces',
         'fichier',
-        'fichiers_joints', 
+        'fichiers_joints',
         'code',
         'state',
         'telephone',

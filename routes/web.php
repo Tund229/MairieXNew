@@ -117,7 +117,7 @@ Route::namespace('App\\Http\\Controllers\\Agent')->prefix('agent')->name('agent.
     Route::post('guichet-divorce/rejete/{id}', 'GuichetDivorceController@rejete')->name('divorce_rejete');
 
 
-    Route::get('/delete-all/{mairie_id}', 'AgentController@deleteAll')->name('delete_all_guichets');
+    Route::get('/delete-all', 'AgentController@deleteAll')->name('delete_all_guichets');
 
 
 

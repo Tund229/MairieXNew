@@ -18,6 +18,7 @@ class GuichetNaissance extends Model
         'telephone',
         'nombre_copies',
         'prenom_pere',
+        'agent_id',
         'nom_prenom_mere',
         'annee_registre',
         'numero_acte_naissance',

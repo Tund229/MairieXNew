@@ -64,9 +64,12 @@
                             Faire une demande
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{ route('guichet-naissance.index') }}">Guichet Naissance</a></li>
-                            <li><a class="dropdown-item" href="{{ route('guichet-certificats.index') }}">Guichet Certifiats </a></li>
-                            <li><a class="dropdown-item" href="{{ route('guichet-deces.index') }}">Guichet Décès</a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-naissance.index') }}">Guichet
+                                    Naissance</a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-certificats.index') }}">Guichet
+                                    Certifiats </a></li>
+                            <li><a class="dropdown-item" href="{{ route('guichet-deces.index') }}">Guichet Décès</a>
+                            </li>
                             <li><a class="dropdown-item" href="{{ route('guichet-divorce.index') }}">Guichet Divorce
                                 </a></li>
                             <li><a class="dropdown-item" href="{{ route('guichet-mariage.index') }}">Guichet Mariage
@@ -278,24 +281,19 @@
             <div class="col-md-12 text-center">
                 <h2> Partenaires</h2>
                 <section class="customer-logos slider">
-                    <div class="slide"><img
-                            src="https://image.freepik.com/free-vector/luxury-letter-e-logo-design_1017-8903.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_1.png/') }}">
                     </div>
-                    <div class="slide"><img src="https://image.freepik.com/free-vector/3d-box-logo_1103-876.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_2.png/') }}">
                     </div>
-                    <div class="slide"><img src="https://image.freepik.com/free-vector/blue-tech-logo_1103-822.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_3.png/') }}">
                     </div>
-                    <div class="slide"><img
-                            src="https://image.freepik.com/free-vector/colors-curl-logo-template_23-2147536125.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_1.png/') }}">
                     </div>
-                    <div class="slide"><img
-                            src="https://image.freepik.com/free-vector/abstract-cross-logo_23-2147536124.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_1.png/') }}">
                     </div>
-                    <div class="slide"><img
-                            src="https://image.freepik.com/free-vector/football-logo-background_1195-244.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_1.png/') }}">
                     </div>
-                    <div class="slide"><img
-                            src="https://image.freepik.com/free-vector/background-of-spots-halftone_1035-3847.jpg">
+                    <div class="slide"><img src="{{ asset('assets/carrousels/carrousel_1.png/') }}">
                     </div>
                 </section>
             </div>
