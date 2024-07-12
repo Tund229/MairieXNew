@@ -113,8 +113,8 @@ Route::namespace('App\\Http\\Controllers\\Agent')->prefix('agent')->name('agent.
     Route::post('guichet-mariage/rejete/{id}', 'GuichetMariageController@rejete')->name('mariage_rejete');
 
     //guichet divorce
-    Route::get('guichet-divorce/valide/{id}', 'GuichetDivorceController@valide')->name('divorce_valide');
-    Route::get('guichet-divorce/rejete/{id}', 'GuichetDivorceController@rejete')->name('divorce_rejete');
+    Route::post('guichet-divorce/valide/{id}', 'GuichetDivorceController@valide')->name('divorce_valide');
+    Route::post('guichet-divorce/rejete/{id}', 'GuichetDivorceController@rejete')->name('divorce_rejete');
 
 
     Route::get('/delete-all/{mairie_id}', 'AgentController@deleteAll')->name('delete_all_guichets');

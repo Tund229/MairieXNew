@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Agent;
 
+use App\Http\Controllers\Controller;
+use App\Models\GuichetCertificat;
 use App\Models\GuichetDeces;
-use Illuminate\Http\Request;
 use App\Models\GuichetDivorce;
 use App\Models\GuichetMariage;
 use App\Models\GuichetNaissance;
-use App\Models\GuichetCertificat;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GuichetDivorceController extends Controller
@@ -19,12 +19,10 @@ class GuichetDivorceController extends Controller
     public function index()
     {
         $title = "Guichet Divorce";
-        $agent_mairie = Auth::user()->mairie_id;
-        $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
+        $demandeEnCours = $this->countGuichetAgent('en_traitement');
         $guichetDivorces = GuichetDivorce::orderBy('state', 'asc')
-        ->where('mairie_id', $agent_mairie)
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('agent.guichetDivorce.index', compact('title', 'guichetDivorces', 'demandeEnCours'));
     }
 
@@ -50,10 +48,10 @@ class GuichetDivorceController extends Controller
     public function show(string $id)
     {
         $title = "Guichet Divorce";
-        $agent_mairie = Auth::user()->mairie_id;
-        $guichetDivorce = GuichetDivorce::where('id', $id)->first();
-        $demandeEnCours = $this->countGuichetAgent('en_traitement', $agent_mairie);
-        return view('agent.guichetDivorce.show', compact('title', 'guichetDivorce', 'demandeEnCours'));
+        $guichetDivorce = GuichetDivorce::findOrFail($id);
+        $demandeEnCours = $this->countGuichetAgent('en_traitement');
+        $fichiers = json_decode($guichetDivorce->fichiers_joints, true) ?? [];
+        return view('agent.guichetDivorce.show', compact('title', 'guichetDivorce', 'demandeEnCours', 'fichiers'));
     }
 
     /**
@@ -80,22 +78,66 @@ class GuichetDivorceController extends Controller
         //
     }
 
-    public function valide($id)
+    public function valide($id, Request $request)
     {
         $guichetDivorce = GuichetDivorce::find($id);
-        $agent_id = Auth::user()->id;
+        $agent_id = Auth::id();
+
         if (!$guichetDivorce) {
             $message = "Une erreur s'est produite!";
             session()->flash('error_message', $message);
+            return redirect()->back();
         }
-        $guichetDivorce->update(['state' => 'terminé', 'date_validation_rejet' => now(), 'agent_id'=>$agent_id ]);
-        $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetDivorce->code;
-        session()->flash('success_message', $message);
+
+        // Vérification et traitement des fichiers joints s'ils sont téléchargés
+        if ($request->hasFile('fichiers')) {
+            $customMessages = [
+                'file' => 'Ce champ doit être un fichier.',
+                'mimes' => 'Le fichier doit être de type :values.',
+                'max' => 'Le fichier ne doit pas dépasser :max kilo-octets.',
+            ];
+
+            $request->validate([
+                'fichiers.*' => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
+            ], $customMessages);
+
+            $filePaths = [];
+            foreach ($request->file('fichiers') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $nomFichier = 'SN-' . uniqid() . '-' . $guichetDivorce->code . '.' . $extension;
+                $filePath = $file->storeAs( $nomFichier); 
+
+                $filePaths[] = $filePath;
+            }
+
+            // Met à jour seulement si des fichiers sont téléchargés
+            $guichetDivorce->update([
+                'fichiers_joints' => json_encode($filePaths),
+                'state' => 'terminé',
+                'date_validation_rejet' => now(),
+                'agent_id' => $agent_id,
+            ]);
+
+            // Message de succès
+            $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetDivorce->code;
+            session()->flash('success_message', $message);
+        } else {
+            // Si aucun fichier n'est téléchargé, met à jour seulement les autres champs
+            $guichetDivorce->update([
+                'state' => 'terminé',
+                'date_validation_rejet' => now(),
+                'agent_id' => $agent_id,
+            ]);
+
+            // Message de succès
+            $message = 'La demande a été traitée et validée avec succès. Le code de suivi est ' . $guichetDivorce->code;
+            session()->flash('success_message', $message);
+        }
+
         return redirect()->back();
     }
 
-
-    public function rejete(Request $request,$id)
+    public function rejete(Request $request, $id)
     {
         $customMessages = [
             'required' => 'Veuillez remplir le motif du rejet.',
@@ -113,10 +155,10 @@ class GuichetDivorceController extends Controller
         }
 
         $guichetDivorce->update([
-            'state' => 'rejeté', 
-            'date_validation_rejet' => now(), 
-            'agent_id' => $agent_id, 
-            'motif' => $data['motif'] 
+            'state' => 'rejeté',
+            'date_validation_rejet' => now(),
+            'agent_id' => $agent_id,
+            'motif' => $data['motif'],
         ]);
 
         $message = 'La demande a été rejetée. Le code de suivi est ' . $guichetDivorce->code;
@@ -125,15 +167,14 @@ class GuichetDivorceController extends Controller
         return redirect()->back();
     }
 
-    
-    private function countGuichetAgent(String $state, int $mairie_id)
+    private function countGuichetAgent(String $state)
     {
 
-        $guichetNaissanceCount = GuichetNaissance::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetDecesCount = GuichetDeces::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetMariageCount = GuichetMariage::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetCertificatCount = GuichetCertificat::where('state', $state)->where('mairie_id', $mairie_id)->count();
-        $guichetDivorceCount = GuichetDivorce::where('state', $state)->where('mairie_id', $mairie_id)->count();
+        $guichetNaissanceCount = GuichetNaissance::where('state', $state)->count();
+        $guichetDecesCount = GuichetDeces::where('state', $state)->count();
+        $guichetMariageCount = GuichetMariage::where('state', $state)->count();
+        $guichetCertificatCount = GuichetCertificat::where('state', $state)->count();
+        $guichetDivorceCount = GuichetDivorce::where('state', $state)->count();
         $total = $guichetNaissanceCount + $guichetDecesCount + $guichetMariageCount + $guichetCertificatCount + $guichetDivorceCount;
         return $total;
     }
