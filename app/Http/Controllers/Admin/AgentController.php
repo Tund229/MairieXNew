@@ -61,7 +61,7 @@ class AgentController extends Controller
             return redirect()->route('admin.agents.index');
         }
 
-        $password = Hash::make('MairiSnAgentPassword');
+        $password = Hash::make('SamaAgentPassword');
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],

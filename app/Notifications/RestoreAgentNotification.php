@@ -36,8 +36,8 @@ class RestoreAgentNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $user = User::with('mairies', 'departements', 'regions')->find($this->user_id);
-        return (new MailMessage())->subject('Votre compte sur MairiSn a été restauré')
+        $user = User::find($this->user_id);
+        return (new MailMessage())->subject('Votre compte sur Sama Etat civil a été restauré')
         ->view('mails.restore-account-notification', ['user'=>$user]);
     }
 

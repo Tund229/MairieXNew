@@ -44,14 +44,14 @@
         }
 
         #dataTable tbody td {
-            border-bottom: 1px solid #17a589;
+            border-bottom: 1px solid #3399ff;
             padding: 8px;
         }
 
         #dataTable_paginate .paginate_button {
             background-color: transparent;
-            color: #17a589;
-            border: 1px solid #17a589;
+            color: #3399ff;
+            border: 1px solid #3399ff;
             padding: 3px 8px;
             margin-right: 2px;
             transition: background-color 0.3s;
@@ -60,9 +60,9 @@
         }
 
         #dataTable_paginate .paginate_button.current {
-            background-color: #17a589;
-            color: #17a589;
-            border: 1px solid #17a589;
+            background-color: #3399ff;
+            color: #3399ff;
+            border: 1px solid #3399ff;
             padding: 3px 8px;
             margin-right: 2px;
         }
@@ -91,7 +91,7 @@
         }
 
         #dataTable_filter>label>input[type="search"]:focus {
-            outline: 1px solid #17a589;
+            outline: 1px solid #3399ff;
             padding: 0.4375rem 0.875rem;
             font-size: 0.9375rem;
             font-weight: 400;
@@ -418,7 +418,7 @@
                 if (regionId) {
                     $.get('/departements/' + regionId, function(data) {
                         $('#departement').empty().append($(
-                            ' <option value="" disabled selected style="color: #17a589;">--Sélectionnez un département--</option>'
+                            ' <option value="" disabled selected style="color: #3399ff;">--Sélectionnez un département--</option>'
                         ));
                         $.each(data, function(departementId, departementNom) {
                             $('#departement').append($('<option value="' + departementId +
@@ -438,7 +438,7 @@
                 if (departementId) {
                     $.get('/mairies/' + departementId, function(data) {
                         $('#mairie').empty().append($(
-                            ' <option value="" disabled selected style="color: #17a589;">--Sélectionnez une mairie--</option>'
+                            ' <option value="" disabled selected style="color: #3399ff;">--Sélectionnez une mairie--</option>'
                         ));
                         $.each(data, function(mairieId, mairieNom) {
                             $('#mairie').append($('<option value="' + mairieId + '">' +

@@ -45,7 +45,6 @@
                                 <th class="text-center">Nom</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Téléphone</th>
-                                <th class="text-center">Mairie</th>
                                 <th class="text-center">Restaurer</th>
                             </tr>
                         </thead>
@@ -55,7 +54,6 @@
                                     <td class="text-center ">{{ $restoreAgent->name }}</td>
                                     <td class="text-center">{{ $restoreAgent->email }}</td>
                                     <td class="text-center">{{ $restoreAgent->phone }}</td>
-                                    <td class="text-center">{{ $restoreAgent->mairies->name }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.restore_account_valide', $restoreAgent->id) }}"
                                             class="btn btn-primary">

@@ -25,7 +25,7 @@
         }
 
         .header {
-            background-color: #17a589;
+            background-color: #3399ff;
             color: #222222;
             padding: 20px 0;
             text-align: center;
@@ -100,7 +100,7 @@
     }
 
     strong {
-        color: #17a589;
+        color: #3399ff;
     }
 
     </style>
@@ -117,10 +117,8 @@
             <p>Voici vos informations de connexion :</p>
             <ul>
                 <li><strong>Nom d'utilisateur :</strong> {{ $user->name }}</li>
-                <li><strong>Mairie :</strong> {{ $user->mairies->name }}</li>
-
                 <li><strong>Adresse e-mail :</strong> {{ $user->email }}</li>
-                <li><strong>Mot de passe temporaire :</strong> SAMA ETAT CIVILAgentPassword</li>
+                <li><strong>Mot de passe temporaire :</strong>SamaAgentPassword</li>
             </ul>
             <p>Vous pouvez utiliser ces informations pour vous connecter à votre compte.</p>
             <p>Si vous souhaitez changer votre mot de passe, vous pouvez le faire après vous être connecté.</p>

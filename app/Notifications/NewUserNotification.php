@@ -35,8 +35,8 @@ class NewUserNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $user = User::with('mairies', 'departements', 'regions')->find($this->user_id);
-        return (new MailMessage())->subject('Vous avez un compte sur MairiSn')
+        $user = User::find($this->user_id);
+        return (new MailMessage())->subject('Vous avez un compte sur Sama Etat civil')
         ->view('mails.new-user-notificattion', ['user'=>$user]);
     }
 
